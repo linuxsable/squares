@@ -1,0 +1,14 @@
+body {
+    font: 12px Helvetica, sans-serif;
+    color: #333;
+}
+
+#wrapper {
+    width: 1024px;
+    margin: auto;
+}
+
+#game {
+    margin: 0 auto;
+    border: 3px solid #000;
+}
