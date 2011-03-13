@@ -1,6 +1,10 @@
 body {
-    font: 12px Helvetica, sans-serif;
+    font: 12px "Helvetica Neue", sans-serif;
     color: #333;
+}
+
+h1 {
+    color: blue;
 }
 
 #wrapper {

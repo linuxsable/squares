@@ -1,36 +1,30 @@
 var Board = (function() {
-    // This is the init
+    // Private instance vars
+
+    // Constructor
     var Board = function(width, height) {
-        this.matrix = [];
-        
-        if (width > height) {
-            checker = width;
-        } else {
-            checker = height;
-        }
+        this.matrix = [];    
+
+        var checker = (width > height) ? width : height;
         
         for (var i = 0; i < checker; i++) {
             this.matrix.push([]);
         }
-        
-        return true;
     }
     
-    // These are public and avail in prototype
-    Board.prototype.getMatrix = function() {
-        return this.matrix;
+    // Public methods
+    Board.prototype.debug = function() {
+        debugger;
     };
-    
+
     Board.prototype.setOccupant = function(coord, occupant) {
-        if (!coord instanceof Coord) {
-            throw("object is not of object type Coord.");
-        }
+        Helpers.isCoordType(coord);
         this.matrix[coord.x][coord.y] = occupant;
         return true;
     };
     
     Board.prototype.getOccupant = function(coord) {
-        checkCoordType(coord);
+        Helpers.isCoordType(coord);
         return this.matrix[coord.x][coord.y];
     }
     

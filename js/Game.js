@@ -8,18 +8,16 @@ var Game = (function() {
         _loopSpeed           = 20,
         _canvasWidth         = 1024,
         _canvasHeight        = 600,
-        _board               = null;
+        _board               = null,
+        _entities            = {
+            player: {},
+            monsters: []
+        };
         
-    /*
-    * Module debugger.
-    */
     self.debug = function() {
         debugger;
     };
         
-    /*
-    * Setup the game.
-    */
     self.init = function() {
         initCanvas();
         initBoard();
@@ -30,9 +28,6 @@ var Game = (function() {
         _board = new Board(_canvasWidth, _canvasHeight);
     };
     
-    /*
-    * Setup the canvas.
-    */
     var initCanvas = function() {
         _canvas = $('#game')[0];
         $(_canvas).attr({
@@ -66,5 +61,16 @@ var Game = (function() {
         _canvasContext.drawImage(_canvasBuffer, 0, 0);
     };
     
+    var renderToCanvasBuffer = function() {
+        var entityLength = _entities.length;
+        
+        for (var i = 0; i < entityLength; i++) {
+            var catLength = _entities[i].length;
+            for (var x = 0; x < catLength; x++) {
+                _entities[i][x].render(_canvasBufferContext);
+            }
+        }
+    };
+
     return self;
 })();
