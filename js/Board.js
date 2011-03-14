@@ -3,11 +3,8 @@ var Board = (function() {
 
     // Constructor
     var Board = function(width, height) {
-        this.matrix = [];    
-
-        var checker = (width > height) ? width : height;
-        
-        for (var i = 0; i < checker; i++) {
+        this.matrix = [];
+        for (var i = 0; i < width; i++) {
             this.matrix.push([]);
         }
     }

@@ -5,7 +5,7 @@ var Game = (function() {
         _canvasBuffer        = null,
         _canvasBufferContext = null,
         _runLoop             = false,
-        _loopSpeed           = 1000,
+        _loopSpeed           = 200,
         _canvasWidth         = 1024,
         _canvasHeight        = 600,
         _board               = null,
@@ -115,17 +115,27 @@ var Game = (function() {
     var initPlayer = function() {
         // There's only one player in the game, YOU
         if (typeof _entities.player != 'Player') {
+            var coord = new Coord(1, 30);
             var player = new Player(
-                new Coord(25, 25),
+                coord,
                 new Size(15, 15),
                 '#333'
             );
+            _board.setOccupant(coord, player);
             _entities.player = player;
         }
     };
     
     var initMonsters = function() {
         // Setup the monsters
+    };
+    
+    self.getCanvasWidth = function() {
+        return _canvasWidth;
+    };
+    
+    self.getCanvasHeight = function() {
+        return _canvasHeight;
     };
 
     return self;

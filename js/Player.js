@@ -19,7 +19,21 @@ var Player = (function() {
     };
     
     Player.prototype.update = function() {
+        var colors = ['#4674ba', '#444', '#3fcd34', '#43da32'];
+        var value = Date.now() % 3;
         
+        this.color = colors[value];
+        
+        this.position = new Coord(
+            Helpers.generateRandomNumber(Game.getCanvasWidth()),
+            Helpers.generateRandomNumber(Game.getCanvasHeight())
+        );
+        
+        var randomSize = Helpers.generateRandomNumber(100);
+        this.size = new Size(
+            randomSize,
+            randomSize
+        );
     };
     
     Player.prototype.move = function() {
