@@ -4,8 +4,8 @@ var Game = (function() {
         _canvasContext       = null,
         _canvasBuffer        = null,
         _canvasBufferContext = null,
-        _loopInterval        = null,
-        _loopSpeed           = 20,
+        _runLoop             = false,
+        _loopSpeed           = 1000,
         _canvasWidth         = 1024,
         _canvasHeight        = 600,
         _board               = null,
@@ -21,7 +21,7 @@ var Game = (function() {
     self.init = function() {
         initCanvas();
         initBoard();
-        startLoop();
+        startGame();
     };
     
     var initBoard = function() {
@@ -34,7 +34,6 @@ var Game = (function() {
 			'width': _canvasWidth,
 			'height': _canvasHeight
 		});
-		
 		if (_canvas && _canvas.getContext) {
             _canvasContext = _canvas.getContext('2d');
             _canvasBuffer = $('<canvas></canvas>')[0];
@@ -43,33 +42,90 @@ var Game = (function() {
             _canvasBufferContext = _canvasBuffer.getContext('2d');    
             return true;
 		}
-		
 		return false;
     };
     
-    var startLoop = function() {
-        (function loopsiloo() {
+    var startGame = function() {
+        initPlayer();
+        initMonsters();
+        
+        // Start the game loop
+        _runLoop = true;
+        (function loopsiloopsiloo() {
+            if (!_runLoop) return;
+            initFrame();
             drawFrame();
-            _loopInterval = setTimeout(loopsiloo, _loopInterval);
+            _loopInterval = setTimeout(loopsiloopsiloo, _loopSpeed);
         })();
     };
     
+    var endGame = function() {
+        _runLoop = false;
+    };
+    
+    // This runs right before the frame gets
+    // written to the buffer.
+    var initFrame = function() {
+        updateEntities();
+    };
+    
+    // This writes the buffer canvas to the real one
     var drawFrame = function() {
-        _canvasBufferContext.fillRect(25, 25, 15, 15);
-        
+        renderToCanvasBuffer();
         _canvasContext.clearRect(0, 0, _canvasWidth, _canvasHeight);
         _canvasContext.drawImage(_canvasBuffer, 0, 0);
     };
     
+    // Write everything temporarily to the buffer canvas
     var renderToCanvasBuffer = function() {
-        var entityLength = _entities.length;
+        // Start the buffer fresh
+        _canvasBufferContext.clearRect(0, 0, _canvasWidth, _canvasHeight);
         
-        for (var i = 0; i < entityLength; i++) {
-            var catLength = _entities[i].length;
-            for (var x = 0; x < catLength; x++) {
-                _entities[i][x].render(_canvasBufferContext);
+        // Loop through all the known entities
+        // and run their individual render methods.
+        $.each(_entities, function(key) {
+            var category = this;
+            if ($.isArray(category)) {
+                $.each(category, function(key) {
+                    this.render(_canvasBufferContext);
+                });
+            } else {
+                this.render(_canvasBufferContext);
             }
+        });
+    };
+    
+    var updateEntities = function() {
+        $.each(_entities, function(key) {
+            var category = this;
+            if ($.isArray(category)) {
+                $.each(category, function(key) {
+                    if (typeof this.update == 'function') {
+                        this.update();
+                    }
+                });
+            } else {
+                if (typeof this.update == 'function') {
+                    this.update();
+                }
+            }
+        });
+    };
+    
+    var initPlayer = function() {
+        // There's only one player in the game, YOU
+        if (typeof _entities.player != 'Player') {
+            var player = new Player(
+                new Coord(25, 25),
+                new Size(15, 15),
+                '#333'
+            );
+            _entities.player = player;
         }
+    };
+    
+    var initMonsters = function() {
+        // Setup the monsters
     };
 
     return self;

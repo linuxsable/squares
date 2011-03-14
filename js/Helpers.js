@@ -1,12 +1,12 @@
 var Helpers = (function() {
     return {
-        isCoordType: function(obj) {
+        checkCoordType: function(obj) {
             if (false === (obj instanceof Coord)) {
                 throw('Object not of Coord type');
             }
         },
         
-        isSizeType: function(obj) {
+        checkSizeType: function(obj) {
             if (false === (obj instanceof Size)) {
                 throw('Object not of Size type');
             }

@@ -18,13 +18,13 @@ var Board = (function() {
     };
 
     Board.prototype.setOccupant = function(coord, occupant) {
-        Helpers.isCoordType(coord);
+        Helpers.checkCoordType(coord);
         this.matrix[coord.x][coord.y] = occupant;
         return true;
     };
     
     Board.prototype.getOccupant = function(coord) {
-        Helpers.isCoordType(coord);
+        Helpers.checkCoordType(coord);
         return this.matrix[coord.x][coord.y];
     }
     
