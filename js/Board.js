@@ -20,6 +20,12 @@ var Board = (function() {
         return true;
     };
     
+    Board.prototype.removeOccupant = function(coord) {
+        Helpers.checkCoordType(coord);
+        delete this.matrix[coord.x][coord.y];
+        return true;
+    };
+    
     Board.prototype.getOccupant = function(coord) {
         Helpers.checkCoordType(coord);
         return this.matrix[coord.x][coord.y];

@@ -5,14 +5,15 @@ var Game = (function() {
         _canvasBuffer        = null,
         _canvasBufferContext = null,
         _runLoop             = false,
-        _loopSpeed           = 200,
-        _canvasWidth         = 1024,
-        _canvasHeight        = 600,
-        _board               = null,
+        _loopSpeed           = 30,
         _entities            = {
             player: {},
             monsters: []
         };
+        
+    self.board = null;
+    self.canvasWidth = 1024;
+    self.canvasHeight = 600;
         
     self.debug = function() {
         debugger;
@@ -21,28 +22,58 @@ var Game = (function() {
     self.init = function() {
         initCanvas();
         initBoard();
+        initControlEvents();
         startGame();
-    };
-    
-    var initBoard = function() {
-        _board = new Board(_canvasWidth, _canvasHeight);
     };
     
     var initCanvas = function() {
         _canvas = $('#game')[0];
         $(_canvas).attr({
-			'width': _canvasWidth,
-			'height': _canvasHeight
+			'width': self.canvasWidth,
+			'height': self.canvasHeight
 		});
 		if (_canvas && _canvas.getContext) {
             _canvasContext = _canvas.getContext('2d');
             _canvasBuffer = $('<canvas></canvas>')[0];
-            _canvasBuffer.width = _canvasWidth;
-            _canvasBuffer.height = _canvasHeight;
+            _canvasBuffer.width = self.canvasWidth;
+            _canvasBuffer.height = self.canvasHeight;
             _canvasBufferContext = _canvasBuffer.getContext('2d');    
             return true;
 		}
 		return false;
+    };
+    
+    var initBoard = function() {
+        self.board = new Board(self.canvasWidth, self.canvasHeight);
+    };
+    
+    // Handle keyboard input for controls
+    var initControlEvents = function() {
+        $(document).keypress(function(e) {
+            // Player controls
+            var player = _entities.player;
+ 			switch (e.keyCode) {
+				// Key: w
+				case 119:
+					player.move('up');
+					break;
+				// Key: s
+				case 115:
+					player.move('down');
+					break;
+				// Key: d
+				case 100:
+					player.move('right');
+					break;
+				// Key: a    
+				case 97:
+					player.move('left');
+					break;
+				case 32:
+				    player.teleport();
+				    break;
+			}
+		});
     };
     
     var startGame = function() {
@@ -72,14 +103,14 @@ var Game = (function() {
     // This writes the buffer canvas to the real one
     var drawFrame = function() {
         renderToCanvasBuffer();
-        _canvasContext.clearRect(0, 0, _canvasWidth, _canvasHeight);
+        _canvasContext.clearRect(0, 0, self.canvasWidth, self.canvasHeight);
         _canvasContext.drawImage(_canvasBuffer, 0, 0);
     };
     
     // Write everything temporarily to the buffer canvas
     var renderToCanvasBuffer = function() {
         // Start the buffer fresh
-        _canvasBufferContext.clearRect(0, 0, _canvasWidth, _canvasHeight);
+        _canvasBufferContext.clearRect(0, 0, self.canvasWidth, self.canvasHeight);
         
         // Loop through all the known entities
         // and run their individual render methods.
@@ -115,13 +146,8 @@ var Game = (function() {
     var initPlayer = function() {
         // There's only one player in the game, YOU
         if (typeof _entities.player != 'Player') {
-            var coord = new Coord(1, 30);
-            var player = new Player(
-                coord,
-                new Size(15, 15),
-                '#333'
-            );
-            _board.setOccupant(coord, player);
+            var coord = new Coord(self.canvasWidth / 2, self.canvasHeight / 2);
+            var player = new Player(coord, new Size(15, 15), '#333');
             _entities.player = player;
         }
     };
@@ -130,12 +156,8 @@ var Game = (function() {
         // Setup the monsters
     };
     
-    self.getCanvasWidth = function() {
-        return _canvasWidth;
-    };
-    
-    self.getCanvasHeight = function() {
-        return _canvasHeight;
+    var initGrid = function() {
+        
     };
 
     return self;

@@ -6,10 +6,16 @@ var Player = (function() {
         this.position = coord;
         this.size = size;
         this.color = color;
+        this.velocity = 10;
+        
+        Game.board.setOccupant(this.position, this);
     }
     
     Player.prototype.render = function(context) {
         context.fillStyle = this.color;
+        context.shadowColor = '#ccc';
+        context.shadowOffsetY = 2;
+        context.shadowOffsetX = 2;
         context.fillRect(
             this.position.x,
             this.position.y,
@@ -19,25 +25,36 @@ var Player = (function() {
     };
     
     Player.prototype.update = function() {
-        var colors = ['#4674ba', '#444', '#3fcd34', '#43da32'];
-        var value = Date.now() % 3;
-        
-        this.color = colors[value];
-        
+
+    };
+    
+    Player.prototype.move = function(direction) {
+        switch (direction) {
+            case 'up':
+                this.position.y = this.position.y - this.velocity;
+                break;
+            case 'down':
+                this.position.y = this.position.y + this.velocity;
+                break;
+            case 'left':
+                this.position.x = this.position.x - this.velocity;
+                break;
+            case 'right':
+                this.position.x = this.position.x + this.velocity;
+                break;
+        }
+    };
+    
+    // For fun :P
+    Player.prototype.teleport = function() {
         this.position = new Coord(
-            Helpers.generateRandomNumber(Game.getCanvasWidth()),
-            Helpers.generateRandomNumber(Game.getCanvasHeight())
-        );
-        
-        var randomSize = Helpers.generateRandomNumber(100);
-        this.size = new Size(
-            randomSize,
-            randomSize
+            Helpers.generateRandomNumber(Game.canvasWidth),
+            Helpers.generateRandomNumber(Game.canvasHeight)
         );
     };
     
-    Player.prototype.move = function() {
-        
+    Player.prototype.destroy = function() {
+        Game.board.removeOccupant(this.position);
     };
 
     return Player;
