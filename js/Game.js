@@ -6,6 +6,7 @@ var Game = (function() {
         _canvasBufferContext = null,
         _runLoop             = false,
         _loopSpeed           = 30,
+        _grid                = {},
         _entities            = {
             player: {},
             monsters: []
@@ -69,6 +70,7 @@ var Game = (function() {
 				case 97:
 					player.move('left');
 					break;
+                // Key: spacebar
 				case 32:
 				    player.teleport();
 				    break;
@@ -77,6 +79,7 @@ var Game = (function() {
     };
     
     var startGame = function() {
+        initGrid();
         initPlayer();
         initMonsters();
         
@@ -86,7 +89,7 @@ var Game = (function() {
             if (!_runLoop) return;
             initFrame();
             drawFrame();
-            _loopInterval = setTimeout(loopsiloopsiloo, _loopSpeed);
+            setTimeout(loopsiloopsiloo, _loopSpeed);
         })();
     };
     
@@ -147,7 +150,7 @@ var Game = (function() {
         // There's only one player in the game, YOU
         if (typeof _entities.player != 'Player') {
             var coord = new Coord(self.canvasWidth / 2, self.canvasHeight / 2);
-            var player = new Player(coord, new Size(15, 15), '#333');
+            var player = new Player(coord, new Size(25, 25), '#333');
             _entities.player = player;
         }
     };
@@ -157,7 +160,11 @@ var Game = (function() {
     };
     
     var initGrid = function() {
-        
+        _grid = new Grid(
+            new Size(self.canvasWidth, self.canvasHeight),
+            '#cccccc'
+        );
+        _grid.render(_canvasBufferContext);
     };
 
     return self;

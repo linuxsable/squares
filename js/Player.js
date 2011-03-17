@@ -6,7 +6,7 @@ var Player = (function() {
         this.position = coord;
         this.size = size;
         this.color = color;
-        this.velocity = 10;
+        this.velocity = 5;
         
         Game.board.setOccupant(this.position, this);
     }
