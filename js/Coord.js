@@ -1,8 +1,6 @@
-var Coord = (function() {
-    function Coord(x, y) {
+var Coord = Object.create({
+    initialize: function(x, y) {
         this.x = x;
         this.y = y;
     }
-    
-    return Coord;
-})();
+});

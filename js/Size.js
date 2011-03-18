@@ -1,8 +1,6 @@
-var Size = (function() {
-    function Size(width, height) {
+var Size = Class.create({
+    initialize: function(width, height) {
         this.width = width;
         this.height = height;
     }
-    
-    return Size;
-})();
+});

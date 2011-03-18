@@ -1,3 +1,46 @@
+var Game = Class.create({
+    initialize: function(msg) {
+        this.canvas = null;
+        this.canvasWidth = 1024;
+        this.canvasHeight = 600;
+        this.canvasContext = null;
+        this.canvasBuffer = null;
+        this.canvasBufferContext = null;
+        this.runLoop = false;
+        this.loopSpeed = 30;
+        this.grid = null;
+        this.board = null;
+        this.entities = $H({
+            player: $H({}),
+            monsters: []
+        }); 
+    },
+    
+    initializeCanvas: function() {
+        this.canvas = $('game');
+        this.canvas.writeAttribute({
+            'width': this.canvasWidth,
+            'height': this.canvasHeight
+        });
+        if (this.canvas && this.canvas.getContext) {
+            this.canvasContext = this.canvas.getContext('2d');
+            this.canvasBuffer = new Element('canvas');
+            this.canvasBuffer.width = this.canvasWidth;
+            this.canvasBuffer.height = this.canvasHeight;
+            this.canvasBufferContext = this.canvasBuffer.getContext('2d');    
+            return true;
+        }
+        return false;
+    },
+    
+    initializeBoard: function() {
+        this.board = {};
+    }
+});
+
+var squares = new Game('hi');
+squares.test;
+
 var Game = (function() {
     var self                 = {},
         _canvas              = null,
@@ -7,10 +50,10 @@ var Game = (function() {
         _runLoop             = false,
         _loopSpeed           = 30,
         _grid                = {},
-        _entities            = {
-            player: {},
+        _entities            = $H({
+            player: $H({}),
             monsters: []
-        };
+        });
         
     self.board = null;
     self.canvasWidth = 1024;
@@ -28,14 +71,14 @@ var Game = (function() {
     };
     
     var initCanvas = function() {
-        _canvas = $('#game')[0];
-        $(_canvas).attr({
-			'width': self.canvasWidth,
+        _canvas = $('game');
+        _canvas.writeAttribute({
+            'width': self.canvasWidth,
 			'height': self.canvasHeight
-		});
+        });
 		if (_canvas && _canvas.getContext) {
             _canvasContext = _canvas.getContext('2d');
-            _canvasBuffer = $('<canvas></canvas>')[0];
+            _canvasBuffer = new Element('canvas');
             _canvasBuffer.width = self.canvasWidth;
             _canvasBuffer.height = self.canvasHeight;
             _canvasBufferContext = _canvasBuffer.getContext('2d');    
@@ -50,32 +93,32 @@ var Game = (function() {
     
     // Handle keyboard input for controls
     var initControlEvents = function() {
-        $(document).keypress(function(e) {
+        $(document).observe('keydown', function(e) {
             // Player controls
             var player = _entities.player;
- 			switch (e.keyCode) {
-				// Key: w
-				case 119:
-					player.move('up');
-					break;
-				// Key: s
-				case 115:
-					player.move('down');
-					break;
-				// Key: d
-				case 100:
-					player.move('right');
-					break;
-				// Key: a    
-				case 97:
-					player.move('left');
-					break;
+            switch (e.keyCode) {
+                // Key: w
+                case 87:
+                    player.move('up');
+                    break;
+                // Key: s
+                case 83:
+                    player.move('down');
+                    break;
+                // Key: d
+                case 68:
+                    player.move('right');
+                    break;
+                // Key: a    
+                case 65:
+                    player.move('left');
+                    break;
                 // Key: spacebar
-				case 32:
-				    player.teleport();
-				    break;
-			}
-		});
+                case 32:
+                    player.teleport();
+                    break;
+            }
+        });
     };
     
     var startGame = function() {
@@ -117,31 +160,25 @@ var Game = (function() {
         
         // Loop through all the known entities
         // and run their individual render methods.
-        $.each(_entities, function(key) {
-            var category = this;
-            if ($.isArray(category)) {
-                $.each(category, function(key) {
-                    this.render(_canvasBufferContext);
+        _entities.each(function(entity) {
+            if (Object.isArray(entity[0])) {
+                entity[0].each(function(subEntity) {
+                    subEntity[0].render(_canvasBufferContext);
                 });
             } else {
-                this.render(_canvasBufferContext);
+                entity[0].render(_canvasBufferContext);
             }
         });
     };
     
     var updateEntities = function() {
-        $.each(_entities, function(key) {
-            var category = this;
-            if ($.isArray(category)) {
-                $.each(category, function(key) {
-                    if (typeof this.update == 'function') {
-                        this.update();
-                    }
+        _entities.each(function(entity) {
+            if (Object.isArray(entity[0])) {
+                entity[0].each(function(entity) {
+                    entity[0].update();
                 });
             } else {
-                if (typeof this.update == 'function') {
-                    this.update();
-                }
+                entity[0].update();
             }
         });
     };

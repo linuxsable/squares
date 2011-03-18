@@ -1,5 +1,4 @@
-var Helpers = (function() {
-    return {
+var Helpers = {
         checkCoordType: function(obj) {
             if (false === (obj instanceof Coord)) {
                 throw('Object not of Coord type');
@@ -26,4 +25,4 @@ var Helpers = (function() {
     		};
     	})()
     }
-})();
+};
