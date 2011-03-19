@@ -1,35 +1,27 @@
-var Board = (function() {
-    // Private instance vars
-
-    // Constructor
-    var Board = function(width, height) {
+var Board = Class.create({    
+    initialize: function(width, height) {
+        this.width = width;
+        this.height = height;
         this.matrix = [];
-        for (var i = 0; i < width; i++) {
+        for (var i = 0; i < this.width; i++) {
             this.matrix.push([]);
         }
-    }
+    },
     
-    // Public methods
-    Board.prototype.debug = function() {
-        debugger;
-    };
-
-    Board.prototype.setOccupant = function(coord, occupant) {
+    setOccupant: function(coord, occupant) {
         Helpers.checkCoordType(coord);
         this.matrix[coord.x][coord.y] = occupant;
         return true;
-    };
+    },
     
-    Board.prototype.removeOccupant = function(coord) {
+    removeOccupant: function(coord) {
         Helpers.checkCoordType(coord);
         delete this.matrix[coord.x][coord.y];
         return true;
-    };
+    },
     
-    Board.prototype.getOccupant = function(coord) {
+    getOccupant: function(coord) {
         Helpers.checkCoordType(coord);
         return this.matrix[coord.x][coord.y];
     }
-    
-    return Board;
-})();
+});

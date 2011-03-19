@@ -13,7 +13,12 @@ var Game = Class.create({
         this.entities = $H({
             player: $H({}),
             monsters: []
-        }); 
+        });
+        
+        this.initializeCanvas();
+        this.initializeBoard();
+        this.initializeControlEvents();
+        this.startGame();
     },
     
     initializeCanvas: function() {
@@ -34,65 +39,11 @@ var Game = Class.create({
     },
     
     initializeBoard: function() {
-        this.board = {};
-    }
-});
-
-var squares = new Game('hi');
-squares.test;
-
-var Game = (function() {
-    var self                 = {},
-        _canvas              = null,
-        _canvasContext       = null,
-        _canvasBuffer        = null,
-        _canvasBufferContext = null,
-        _runLoop             = false,
-        _loopSpeed           = 30,
-        _grid                = {},
-        _entities            = $H({
-            player: $H({}),
-            monsters: []
-        });
-        
-    self.board = null;
-    self.canvasWidth = 1024;
-    self.canvasHeight = 600;
-        
-    self.debug = function() {
-        debugger;
-    };
-        
-    self.init = function() {
-        initCanvas();
-        initBoard();
-        initControlEvents();
-        startGame();
-    };
-    
-    var initCanvas = function() {
-        _canvas = $('game');
-        _canvas.writeAttribute({
-            'width': self.canvasWidth,
-			'height': self.canvasHeight
-        });
-		if (_canvas && _canvas.getContext) {
-            _canvasContext = _canvas.getContext('2d');
-            _canvasBuffer = new Element('canvas');
-            _canvasBuffer.width = self.canvasWidth;
-            _canvasBuffer.height = self.canvasHeight;
-            _canvasBufferContext = _canvasBuffer.getContext('2d');    
-            return true;
-		}
-		return false;
-    };
-    
-    var initBoard = function() {
-        self.board = new Board(self.canvasWidth, self.canvasHeight);
-    };
+        this.board = new Board(this.canvasWidth, this.canvasHeight);
+    },
     
     // Handle keyboard input for controls
-    var initControlEvents = function() {
+    initializeControlEvents: function() {
         $(document).observe('keydown', function(e) {
             // Player controls
             var player = _entities.player;
@@ -119,90 +70,100 @@ var Game = (function() {
                     break;
             }
         });
-    };
+    },
     
-    var startGame = function() {
-        initGrid();
-        initPlayer();
-        initMonsters();
+    startGame: function() {
+        // this.initializePlayer();
+        this.initializeMonsters();
         
         // Start the game loop
-        _runLoop = true;
+        this.runLoop = true;
+        var that = this;
         (function loopsiloopsiloo() {
-            if (!_runLoop) return;
-            initFrame();
-            drawFrame();
-            setTimeout(loopsiloopsiloo, _loopSpeed);
+            if (!that.runLoop) return;
+            that.initializeFrame();
+            that.drawFrame();
+            setTimeout(loopsiloopsiloo, that.loopSpeed);
         })();
-    };
+    },
     
-    var endGame = function() {
-        _runLoop = false;
-    };
+    endGame: function() {
+        this.runLoop = false;
+    },
     
     // This runs right before the frame gets
     // written to the buffer.
-    var initFrame = function() {
-        updateEntities();
-    };
+    initializeFrame: function() {
+        this.updateEntities();
+    },
     
     // This writes the buffer canvas to the real one
-    var drawFrame = function() {
-        renderToCanvasBuffer();
-        _canvasContext.clearRect(0, 0, self.canvasWidth, self.canvasHeight);
-        _canvasContext.drawImage(_canvasBuffer, 0, 0);
-    };
+    drawFrame: function() {
+        this.renderToCanvasBuffer();
+        this.canvasContext.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
+        this.canvasContext.drawImage(this.canvasBuffer, 0, 0);
+    },
     
     // Write everything temporarily to the buffer canvas
-    var renderToCanvasBuffer = function() {
+    renderToCanvasBuffer: function() {
         // Start the buffer fresh
-        _canvasBufferContext.clearRect(0, 0, self.canvasWidth, self.canvasHeight);
+        this.canvasBufferContext.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
         
         // Loop through all the known entities
         // and run their individual render methods.
-        _entities.each(function(entity) {
+        this.entities.each(function(entity) {
             if (Object.isArray(entity[0])) {
                 entity[0].each(function(subEntity) {
-                    subEntity[0].render(_canvasBufferContext);
+                    var e = subEntity[0];
+                    if ( Object.isFunction(e.render) ) {
+                        e.render(this.canvasBufferContext);
+                    }
                 });
             } else {
-                entity[0].render(_canvasBufferContext);
+                var e = entity[0];
+                if ( Object.isFunction(e.render) ) {
+                    e.render(this.canvasBufferContext);
+                }
             }
         });
-    };
+    },
     
-    var updateEntities = function() {
-        _entities.each(function(entity) {
+    updateEntities: function() {
+        this.entities.each(function(entity) {
             if (Object.isArray(entity[0])) {
-                entity[0].each(function(entity) {
-                    entity[0].update();
+                entity[0].each(function(subEntity) {
+                    var e = subEntity[0];
+                    if ( Object.isFunction(e.update) ) {
+                        e.update();
+                    }
                 });
             } else {
-                entity[0].update();
+                var e = entity[0];
+                if ( Object.isFunction(e.update) ) {
+                    e.update();
+                }
             }
         });
-    };
+    },
     
-    var initPlayer = function() {
+    initializePlayer: function() {
         // There's only one player in the game, YOU
-        if (typeof _entities.player != 'Player') {
-            var coord = new Coord(self.canvasWidth / 2, self.canvasHeight / 2);
+        if (false === (this.entities.player instanceof Player)) {
+            var coord = new Coord(this.canvasWidth / 2, this.canvasHeight / 2);
             var player = new Player(coord, new Size(25, 25), '#333');
-            _entities.player = player;
+            this.entities.player = player;
         }
-    };
+    },
     
-    var initMonsters = function() {
+    initializeMonsters: function() {
         // Setup the monsters
-    };
+    },
     
-    var initGrid = function() {
-        _grid = new Grid(
-            new Size(self.canvasWidth, self.canvasHeight),
-            '#cccccc'
-        );
-        _grid.render(_canvasBufferContext);
-    };
-
-    return self;
-})();
+    initializeGrid: function() {
+        this.grid = new Grid(
+            new Size(this.canvasWidth, this.canvasHeight),
+            '#ccc'
+        )
+        this.grid.render(this.canvasBufferContext);
+    }
+});

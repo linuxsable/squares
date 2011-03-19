@@ -1,11 +1,15 @@
 var Entity = Class.create({
-    initialize: function(coord, size, color, velocity) {
-        this.coord = coord;
+    initialize: function(coord, size, color) {
+        this.position = coord;
         this.size = size;
         this.color = color;
-        this.velocity = velocity || 0;
+        this.velocity = 5;
     },
-
+    
+    destroy: function() {
+        
+    },
+    
     render: function() {
     
     },
@@ -17,8 +21,12 @@ var Entity = Class.create({
     move: function() {
         
     },
-
-    destroy: function() {
-        
+    
+    // For fun :P
+    teleport: function() {
+        this.position = new Coord(
+            Helpers.generateRandomNumber(Game.canvasWidth),
+            Helpers.generateRandomNumber(Game.canvasHeight)
+        );
     }
 });

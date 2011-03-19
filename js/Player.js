@@ -1,17 +1,5 @@
-var Player = (function() {
-    function Player(coord, size, color) {
-        Helpers.checkCoordType(coord);
-        Helpers.checkSizeType(size);
-        
-        this.position = coord;
-        this.size = size;
-        this.color = color;
-        this.velocity = 5;
-        
-        Game.board.setOccupant(this.position, this);
-    }
-    
-    Player.prototype.render = function(context) {
+var Player = Class.create(Entity, {
+    render: function(context) {
         context.fillStyle = this.color;
         context.shadowColor = '#ccc';
         context.shadowOffsetY = 2;
@@ -22,13 +10,9 @@ var Player = (function() {
             this.size.width,
             this.size.height
         );
-    };
+    },
     
-    Player.prototype.update = function() {
-
-    };
-    
-    Player.prototype.move = function(direction) {
+    move: function(direction) {
         switch (direction) {
             case 'up':
                 this.position.y = this.position.y - this.velocity;
@@ -43,19 +27,5 @@ var Player = (function() {
                 this.position.x = this.position.x + this.velocity;
                 break;
         }
-    };
-    
-    // For fun :P
-    Player.prototype.teleport = function() {
-        this.position = new Coord(
-            Helpers.generateRandomNumber(Game.canvasWidth),
-            Helpers.generateRandomNumber(Game.canvasHeight)
-        );
-    };
-    
-    Player.prototype.destroy = function() {
-        Game.board.removeOccupant(this.position);
-    };
-
-    return Player;
-})();
+    }
+});

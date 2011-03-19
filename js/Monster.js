@@ -1,7 +1,5 @@
-var Monster = (function() {
-    function Monster() {
-
+var Monster = Class.create({
+    initialize: function() {
+        
     }
-
-    return Monster;
-})();
+});
