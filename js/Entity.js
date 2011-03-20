@@ -1,5 +1,6 @@
 var Entity = Class.create({
-    initialize: function(coord, size, color) {
+    initialize: function(game, coord, size, color) {
+        this.game = game;
         this.position = coord;
         this.size = size;
         this.color = color;
@@ -11,22 +12,35 @@ var Entity = Class.create({
     },
     
     render: function() {
-    
+        l('render super');
     },
 
     update: function() {
-        
+        return true;
     },
 
-    move: function() {
-        
+    move: function(direction) {
+        switch (direction) {
+            case 'up':
+                this.position.y = this.position.y - this.velocity;
+                break;
+            case 'down':
+                this.position.y = this.position.y + this.velocity;
+                break;
+            case 'left':
+                this.position.x = this.position.x - this.velocity;
+                break;
+            case 'right':
+                this.position.x = this.position.x + this.velocity;
+                break;
+        }
     },
     
     // For fun :P
     teleport: function() {
         this.position = new Coord(
-            Helpers.generateRandomNumber(Game.canvasWidth),
-            Helpers.generateRandomNumber(Game.canvasHeight)
+            Helpers.generateRandomNumber(this.game.canvasWidth),
+            Helpers.generateRandomNumber(this.game.canvasHeight)
         );
     }
 });

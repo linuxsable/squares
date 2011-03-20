@@ -2,7 +2,7 @@ var Game = Class.create({
     initialize: function(msg) {
         this.canvas = null;
         this.canvasWidth = 1024;
-        this.canvasHeight = 600;
+        this.canvasHeight = 300;
         this.canvasContext = null;
         this.canvasBuffer = null;
         this.canvasBufferContext = null;
@@ -11,8 +11,8 @@ var Game = Class.create({
         this.grid = null;
         this.board = null;
         this.entities = $H({
-            player: $H({}),
-            monsters: []
+            player: null,
+            monsters: null
         });
         
         this.initializeCanvas();
@@ -44,9 +44,10 @@ var Game = Class.create({
     
     // Handle keyboard input for controls
     initializeControlEvents: function() {
+        var that = this;
         $(document).observe('keydown', function(e) {
             // Player controls
-            var player = _entities.player;
+            var player = that.entities.get('player');
             switch (e.keyCode) {
                 // Key: w
                 case 87:
@@ -73,7 +74,7 @@ var Game = Class.create({
     },
     
     startGame: function() {
-        // this.initializePlayer();
+        this.initializePlayer();
         this.initializeMonsters();
         
         // Start the game loop
@@ -112,17 +113,17 @@ var Game = Class.create({
         // Loop through all the known entities
         // and run their individual render methods.
         this.entities.each(function(entity) {
-            if (Object.isArray(entity[0])) {
-                entity[0].each(function(subEntity) {
-                    var e = subEntity[0];
-                    if ( Object.isFunction(e.render) ) {
-                        e.render(this.canvasBufferContext);
+            if (Object.isArray(entity.value)) {
+                entity.value.each(function(subEntity) {
+                    if (!subEntity.value) return;
+                    if (Object.isFunction(subEntity.value.render)) {
+                        subEntity.value.render();
                     }
                 });
             } else {
-                var e = entity[0];
-                if ( Object.isFunction(e.render) ) {
-                    e.render(this.canvasBufferContext);
+                if (!entity.value) return;
+                if (Object.isFunction(entity.value.render)) {
+                    entity.value.render();
                 }
             }
         });
@@ -130,17 +131,17 @@ var Game = Class.create({
     
     updateEntities: function() {
         this.entities.each(function(entity) {
-            if (Object.isArray(entity[0])) {
-                entity[0].each(function(subEntity) {
-                    var e = subEntity[0];
-                    if ( Object.isFunction(e.update) ) {
-                        e.update();
+            if (Object.isArray(entity.value)) {
+                entity.value.each(function(subEntity) {
+                    if (!subEntity.value) return;
+                    if (Object.isFunction(subEntity.value.update)) {
+                        subEntity.value.update();
                     }
                 });
             } else {
-                var e = entity[0];
-                if ( Object.isFunction(e.update) ) {
-                    e.update();
+                if (!entity.value) return;
+                if (Object.isFunction(entity.value.update)) {
+                    entity.value.update();
                 }
             }
         });
@@ -148,10 +149,13 @@ var Game = Class.create({
     
     initializePlayer: function() {
         // There's only one player in the game, YOU
-        if (false === (this.entities.player instanceof Player)) {
-            var coord = new Coord(this.canvasWidth / 2, this.canvasHeight / 2);
-            var player = new Player(coord, new Size(25, 25), '#333');
-            this.entities.player = player;
+        if (false === (this.entities.get('player') instanceof Player)) {
+            this.entities.set('player', new Player(
+                this,
+                new Coord(this.canvasWidth / 2, this.canvasHeight / 2),
+                new Size(10, 10),
+                '#444'
+            ));
         }
     },
     

@@ -25,3 +25,11 @@ var Helpers = {
     	};
     })()
 };
+
+// Logging
+var l = function(v) {
+    if (!console || !console.log) {
+        return;
+    }
+    console.log(v);
+};

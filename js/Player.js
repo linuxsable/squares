@@ -1,5 +1,6 @@
 var Player = Class.create(Entity, {
-    render: function(context) {
+    render: function() {
+        var context = this.game.canvasBufferContext;
         context.fillStyle = this.color;
         context.shadowColor = '#ccc';
         context.shadowOffsetY = 2;
@@ -10,22 +11,5 @@ var Player = Class.create(Entity, {
             this.size.width,
             this.size.height
         );
-    },
-    
-    move: function(direction) {
-        switch (direction) {
-            case 'up':
-                this.position.y = this.position.y - this.velocity;
-                break;
-            case 'down':
-                this.position.y = this.position.y + this.velocity;
-                break;
-            case 'left':
-                this.position.x = this.position.x - this.velocity;
-                break;
-            case 'right':
-                this.position.x = this.position.x + this.velocity;
-                break;
-        }
     }
 });
