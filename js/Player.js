@@ -3,6 +3,7 @@ var Player = Class.create(Entity, {
         var context = this.game.canvasBufferContext;
         context.fillStyle = this.color;
         context.shadowColor = '#ccc';
+        context.shadowBlur = 2;
         context.shadowOffsetY = 2;
         context.shadowOffsetX = 2;
         context.fillRect(

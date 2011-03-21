@@ -5,3 +5,10 @@ var Coord = Class.create({
         this.y = y;
     }
 });
+
+Coord.getRandomInsideBoard = function(game) {
+    return new Coord(
+        Helpers.generateRandomNumber(game.canvasWidth),
+        Helpers.generateRandomNumber(game.canvasHeight)
+    );
+};

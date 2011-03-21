@@ -154,13 +154,19 @@ var Game = Class.create({
                 this,
                 new Coord(this.canvasWidth / 2, this.canvasHeight / 2),
                 new Size(10, 10),
-                '#444'
+                '#008fc5'
             ));
         }
     },
     
     initializeMonsters: function() {
         // Setup the monsters
+        this.entities.set('monster', new Monster(
+            this,
+            Coord.getRandomInsideBoard(this),
+            new Size(20, 20),
+            '#ef4135'
+        ));
     },
     
     initializeGrid: function() {

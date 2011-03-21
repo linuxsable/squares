@@ -4,19 +4,22 @@ var Entity = Class.create({
         this.position = coord;
         this.size = size;
         this.color = color;
-        this.velocity = 5;
+        this.velocity = 8;
+        this.destination = null;
+        this.mind = new StateMachine();
+        this.id = 0;
     },
     
     destroy: function() {
-        
+        return;
     },
     
     render: function() {
-        l('render super');
+        return;
     },
 
     update: function() {
-        return true;
+        this.mind.think();
     },
 
     move: function(direction) {
@@ -34,13 +37,31 @@ var Entity = Class.create({
                 this.position.x = this.position.x + this.velocity;
                 break;
         }
+        return this;
     },
     
     // For fun :P
     teleport: function() {
-        this.position = new Coord(
-            Helpers.generateRandomNumber(this.game.canvasWidth),
-            Helpers.generateRandomNumber(this.game.canvasHeight)
-        );
+        this.position = Coord.getRandomInsideBoard(this.game);
+        return this;
+    },
+    
+    randomDestination: function() {
+        this.destination = Coord.getRandomInsideBoard(this.game);
+        return this;
+    },
+    
+    incrementSize: function(sensitivity) {
+        sensitivity = sensitivity || 5;
+        this.size.width += sensitivity;
+        this.size.height += sensitivity;
+        return this;
+    },
+    
+    decrementSize: function(sensitivity) {
+        sensitivity = sensitivity || 5;
+        this.size.width -= sensitivity;
+        this.size.height -= sensitivity;
+        return this;
     }
 });

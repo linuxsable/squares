@@ -1,14 +1,9 @@
-var Helpers = {
-    checkCoordType: function(obj) {
-        if (false === (obj instanceof Coord)) {
-            throw('Object not of Coord type');
+var Helpers = {    
+    checkType: function(obj, type) {
+        if (false === (obj instanceof type)) {
+            return false;
         }
-    },
-
-    checkSizeType: function(obj) {
-        if (false === (obj instanceof Size)) {
-            throw('Object not of Size type');
-        }
+        return true;
     },
 
     // Generate a random number. Max length is the largest
