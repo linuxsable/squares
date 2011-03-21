@@ -9,12 +9,13 @@ var StateMonsterExploring = Class.create(State, {
     
     doActions: function() {
         var movements = ['up', 'down', 'right', 'left'];
-        var a = movements[+Date.now() % 4];
+        var randomNumber = (+Date.now() + Helpers.generateRandomNumber(100));
+        var a = movements[randomNumber % 4];
         this.monster.move(a);
         
-        if (+Date.now() % 10 == 1) {
-            if (+Date.now() % 2 == 0) {
-                this.monster.incrementSize();
+        if (randomNumber % 10 == 1) {
+            if (randomNumber % 2 == 0) {
+                this.monster.incrementSize().teleport();
             } else {
                 this.monster.decrementSize();
             }
