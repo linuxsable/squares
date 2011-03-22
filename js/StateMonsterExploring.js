@@ -13,17 +13,20 @@ var StateMonsterExploring = Class.create(State, {
         var a = movements[randomNumber % 4];
         this.monster.move(a);
         
-        if (randomNumber % 10 == 1) {
-            if (randomNumber % 2 == 0) {
-                this.monster.incrementSize().teleport();
-            } else {
+        if (randomNumber % 30 == 1) {
+            randomNumber = (+Date.now() + Helpers.generateRandomNumber(100));
+            if (randomNumber % 3 == 1) {
                 this.monster.decrementSize();
+            } else {
+                this.monster.incrementSize();
             }
         }
     },
     
     checkConditions: function() {
-        
+        if (this.monster.size.width > 21) {
+            return 'stalled';
+        }
     },
     
     entryActions: function() {

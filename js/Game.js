@@ -2,7 +2,7 @@ var Game = Class.create({
     initialize: function(msg) {
         this.canvas = null;
         this.canvasWidth = 1024;
-        this.canvasHeight = 300;
+        this.canvasHeight = 600;
         this.canvasContext = null;
         this.canvasBuffer = null;
         this.canvasBufferContext = null;

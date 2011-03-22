@@ -1,8 +1,8 @@
 var Monster = Class.create(Entity, {
     initialize: function($super, game, coord, size, color) {
         $super(game, coord, size, color);
-        var exploringState = new StateMonsterExploring(this);
-        this.mind.addState(exploringState);
+        this.mind.addState(new StateMonsterExploring(this));
+        this.mind.addState(new StateMonsterStalled(this));
         this.mind.setState('exploring');
     },
     
