@@ -25,16 +25,16 @@ var Entity = Class.create({
     move: function(direction) {
         switch (direction) {
             case 'up':
-                this.position.y = this.position.y - this.velocity;
+                this.position.y -= this.velocity;
                 break;
             case 'down':
-                this.position.y = this.position.y + this.velocity;
+                this.position.y += this.velocity;
                 break;
             case 'left':
-                this.position.x = this.position.x - this.velocity;
+                this.position.x -= this.velocity;
                 break;
             case 'right':
-                this.position.x = this.position.x + this.velocity;
+                this.position.x += this.velocity;
                 break;
         }
         return this;

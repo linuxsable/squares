@@ -7,12 +7,12 @@ var Game = Class.create({
         this.canvasBuffer = null;
         this.canvasBufferContext = null;
         this.runLoop = false;
-        this.loopSpeed = 30;
+        this.fps = 30;
         this.grid = null;
         this.board = null;
         this.entities = $H({
             player: null,
-            monsters: null
+            monsters: []
         });
         
         this.initializeCanvas();
@@ -84,7 +84,7 @@ var Game = Class.create({
             if (!that.runLoop) return;
             that.initializeFrame();
             that.drawFrame();
-            setTimeout(loopsiloopsiloo, that.loopSpeed);
+            setTimeout(loopsiloopsiloo, 1000 / that.fps);
         })();
     },
     
@@ -115,9 +115,11 @@ var Game = Class.create({
         this.entities.each(function(entity) {
             if (Object.isArray(entity.value)) {
                 entity.value.each(function(subEntity) {
-                    if (!subEntity.value) return;
-                    if (Object.isFunction(subEntity.value.render)) {
-                        subEntity.value.render();
+                    if (false === (subEntity instanceof Entity)) {
+                        return;
+                    }
+                    if (Object.isFunction(subEntity.render)) {
+                        subEntity.render();
                     }
                 });
             } else {
@@ -133,9 +135,11 @@ var Game = Class.create({
         this.entities.each(function(entity) {
             if (Object.isArray(entity.value)) {
                 entity.value.each(function(subEntity) {
-                    if (!subEntity.value) return;
-                    if (Object.isFunction(subEntity.value.update)) {
-                        subEntity.value.update();
+                    if (false === (subEntity instanceof Entity)) {
+                        return;
+                    }
+                    if (Object.isFunction(subEntity.update)) {
+                        subEntity.update();
                     }
                 });
             } else {
@@ -161,12 +165,14 @@ var Game = Class.create({
     
     initializeMonsters: function() {
         // Setup the monsters
-        this.entities.set('monster', new Monster(
-            this,
-            Coord.getRandomInsideBoard(this),
-            new Size(20, 20),
-            '#ef4135'
-        ));
+        for (var i = 0; i < 150; i++) {
+            this.entities.get('monsters').push(new Monster(
+                this,
+                Coord.getRandomInsideBoard(this),
+                new Size(20, 20),
+                '#ef4135'
+            ));
+        };
     },
     
     initializeGrid: function() {
