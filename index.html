@@ -38,13 +38,15 @@
 	<script src="js/Helpers.js" type="text/javascript" charset="utf-8"></script>
 	<script src="js/Board.js" type="text/javascript" charset="utf-8"></script>
 	<script src="js/Coord.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/Bounds.js" type="text/javascript" charset="utf-8"></script>
 	<script src="js/Vector.js" type="text/javascript" charset="utf-8"></script>
 	<script src="js/Size.js" type="text/javascript" charset="utf-8"></script>
 
 	<script src="js/Grid.js" type="text/javascript" charset="utf-8"></script>
 	<script type="text/javascript" charset="utf-8">
+		var squares;
 		document.observe('dom:loaded', function() {
-			var squares = new Game();
+			squares = new Game();
 		});
 	</script>
 </html>

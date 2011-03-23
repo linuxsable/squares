@@ -7,7 +7,7 @@ var Game = Class.create({
         this.canvasBuffer = null;
         this.canvasBufferContext = null;
         this.runLoop = false;
-        this.fps = 30;
+        this.fps = 40;
         this.grid = null;
         this.board = null;
         this.entities = $H({
@@ -165,7 +165,7 @@ var Game = Class.create({
     
     initializeMonsters: function() {
         // Setup the monsters
-        for (var i = 0; i < 150; i++) {
+        for (var i = 0; i < 2; i++) {
             this.entities.get('monsters').push(new Monster(
                 this,
                 Coord.getRandomInsideBoard(this),
