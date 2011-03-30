@@ -6,7 +6,7 @@ var Game = Class.create({
         this.canvasContext = null;
         this.canvasBuffer = null;
         this.canvasBufferContext = null;
-        this.runLoop = false;
+        this.intervalId = null;
         this.fps = 40;
         this.grid = null;
         this.board = null;
@@ -78,24 +78,34 @@ var Game = Class.create({
         this.initializeMonsters();
         
         // Start the game loop
-        this.runLoop = true;
         var that = this;
-        (function loopsiloopsiloo() {
-            if (!that.runLoop) return;
-            that.initializeFrame();
+        
+        var _loopsi = function() {
+            var loops = 0,
+                skipTicks = 1000 / that.fps,
+                maxFrameSkip = 10,
+                nextGameTick = (new Date).getTime();
+            while ((new Date).getTime() > nextGameTick && loops < maxFrameSkip) {
+                l('test')
+                that.initializeFrame();
+                nextGameTick += skipTicks;
+                loops++;
+            }
             that.drawFrame();
-            setTimeout(loopsiloopsiloo, 1000 / that.fps);
-        })();
+        };
+
+        this.intervalId = setInterval(_loopsi, 1);
     },
     
     endGame: function() {
-        this.runLoop = false;
+        return clearInterval(this.intervalId);
     },
     
     // This runs right before the frame gets
     // written to the buffer.
     initializeFrame: function() {
         this.updateEntities();
+        return this;
     },
     
     // This writes the buffer canvas to the real one
@@ -103,6 +113,7 @@ var Game = Class.create({
         this.renderToCanvasBuffer();
         this.canvasContext.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
         this.canvasContext.drawImage(this.canvasBuffer, 0, 0);
+        return this;
     },
     
     // Write everything temporarily to the buffer canvas
@@ -165,7 +176,7 @@ var Game = Class.create({
     
     initializeMonsters: function() {
         // Setup the monsters
-        for (var i = 0; i < 2; i++) {
+        for (var i = 0; i < 200; i++) {
             this.entities.get('monsters').push(new Monster(
                 this,
                 Coord.getRandomInsideBoard(this),
