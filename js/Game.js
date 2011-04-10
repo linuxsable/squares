@@ -7,7 +7,7 @@ var Game = Class.create({
         this.canvasBuffer = null;
         this.canvasBufferContext = null;
         this.intervalId = null;
-        this.fps = 40;
+        this.fps = 20;
         this.grid = null;
         this.board = null;
         this.entities = $H({
@@ -18,6 +18,9 @@ var Game = Class.create({
         this.initializeCanvas();
         this.initializeBoard();
         this.initializeControlEvents();
+        this.initializePlayer();
+        this.initializeMonsters();
+        
         this.startGame();
     },
     
@@ -74,29 +77,25 @@ var Game = Class.create({
     },
     
     startGame: function() {
-        this.initializePlayer();
-        this.initializeMonsters();
-        
-        // Start the game loop
-        var that = this;
-        
+        var loops = 0,
+            skipTicks = 1000 / this.fps,
+            maxFrameSkip = 10,
+            nextGameTick = (new Date).getTime(),
+			that = this,
+			interval;
+		
         var _loopsi = function() {
-            var loops = 0,
-                skipTicks = 1000 / that.fps,
-                maxFrameSkip = 10,
-                nextGameTick = (new Date).getTime();
+			loops = 0;
             while ((new Date).getTime() > nextGameTick && loops < maxFrameSkip) {
-                l('test')
                 that.initializeFrame();
                 nextGameTick += skipTicks;
                 loops++;
             }
             that.drawFrame();
         };
-
-        this.intervalId = setInterval(_loopsi, 1);
+		this.intervalId = setInterval(_loopsi, 0);
     },
-    
+
     endGame: function() {
         return clearInterval(this.intervalId);
     },
