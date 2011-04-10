@@ -93,7 +93,8 @@ var Game = Class.create({
             }
             that.drawFrame();
         };
-		this.intervalId = setInterval(_loopsi, 0);
+		//this.intervalId = setInterval(_loopsi, 0);
+		window.onEachFrame(_loopsi);
     },
 
     endGame: function() {
@@ -193,3 +194,24 @@ var Game = Class.create({
         this.grid.render(this.canvasBufferContext);
     }
 });
+
+(function() {
+  var onEachFrame;
+  if (window.webkitRequestAnimationFrame) {
+    onEachFrame = function(cb) {
+      var _cb = function() { cb(); webkitRequestAnimationFrame(_cb); }
+      _cb();
+    };
+  } else if (window.mozRequestAnimationFrame) {
+    onEachFrame = function(cb) {
+      var _cb = function() { cb(); mozRequestAnimationFrame(_cb); }
+      _cb();
+    };
+  } else {
+    onEachFrame = function(cb) {
+      setInterval(cb, 1000 / 60);
+    }
+  }
+  
+  window.onEachFrame = onEachFrame;
+})();
