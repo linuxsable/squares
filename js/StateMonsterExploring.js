@@ -15,7 +15,7 @@ var StateMonsterExploring = Class.create(State, {
         var colors = ['pink', 'green', 'red', '#333', 'orange'];
         var randomNumber = Helpers.generateRandomNumber(100);
         var a = movements[randomNumber % 4];
-        this.monster.move('down');
+        this.monster.move(a);
         
         if (this._randomNumber < 5) {
             this._randomNumber++;
@@ -27,14 +27,14 @@ var StateMonsterExploring = Class.create(State, {
             // l(Object.toJSON(this.monster.bounds));
         }
         
-        // if (randomNumber % 30 == 1) {
-        //     randomNumber = Helpers.generateRandomNumber(100);
-        //     if (randomNumber % 3 == 1) {
-        //         this.monster.decrementSize();
-        //     } else {
-        //         this.monster.incrementSize();
-        //     }
-        // }
+        if (randomNumber % 30 == 1) {
+            randomNumber = Helpers.generateRandomNumber(100);
+            if (randomNumber % 3 == 1) {
+                this.monster.decrementSize();
+            } else {
+                this.monster.incrementSize();
+            }
+        }
         
         if (this.monster.size.width > 40) {
             this.monster.size = new Size(20, 20);
