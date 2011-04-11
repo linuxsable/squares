@@ -5,10 +5,11 @@ var Entity = Class.create({
         this.size = size;
         this.bounds = new Bounds(this.position, this.size);
         this.color = color;
-        this.velocity = 8;
+        this.velocity = 2;
         this.destination = null;
         this.mind = new StateMachine();
         this.id = 0;
+        this.keyHandler = new KeyHandler();
     },
     
     destroy: function() {

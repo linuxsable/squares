@@ -17,8 +17,8 @@ var Game = Class.create({
         
         this.initializeCanvas();
         this.initializeBoard();
-        this.initializeControlEvents();
         this.initializePlayer();
+        this.initializeControlEvents();
         this.initializeMonsters();
         
         this.startGame();
@@ -47,32 +47,12 @@ var Game = Class.create({
     
     // Handle keyboard input for controls
     initializeControlEvents: function() {
-        var that = this;
-        $(document).observe('keydown', function(e) {
-            // Player controls
-            var player = that.entities.get('player');
-            switch (e.keyCode) {
-                // Key: w
-                case 87:
-                    player.move('up');
-                    break;
-                // Key: s
-                case 83:
-                    player.move('down');
-                    break;
-                // Key: d
-                case 68:
-                    player.move('right');
-                    break;
-                // Key: a    
-                case 65:
-                    player.move('left');
-                    break;
-                // Key: spacebar
-                case 32:
-                    player.teleport();
-                    break;
-            }
+        var player = this.entities.get('player');
+        $(document).observe('keydown', function(event) {
+            player.keyHandler.onKeydown(event);
+        });
+        $(document).observe('keyup', function(event) {
+            player.keyHandler.onKeyup(event);
         });
     },
     
@@ -168,7 +148,7 @@ var Game = Class.create({
             this.entities.set('player', new Player(
                 this,
                 new Coord(this.canvasWidth / 2, this.canvasHeight / 2),
-                new Size(10, 10),
+                new Size(30, 30),
                 '#008fc5'
             ));
         }

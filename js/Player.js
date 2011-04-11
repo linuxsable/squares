@@ -12,5 +12,22 @@ var Player = Class.create(Entity, {
             this.size.width,
             this.size.height
         );
+    },
+    
+    update: function() {
+        var k = this.keyHandler;
+        if (k.isDown(k.UP)) {
+            this.move('up');
+        }
+        if (k.isDown(k.DOWN)) {
+            this.move('down');
+        }
+        if (k.isDown(k.LEFT)) {
+            this.move('left');
+        }
+        if (k.isDown(k.RIGHT)) {
+            this.move('right');
+        }
+        this.mind.think();
     }
 });
