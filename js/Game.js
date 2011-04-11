@@ -96,6 +96,7 @@ var Game = Class.create({
         window.onEachFrame(_loopsi);
     },
 
+    // TODO: this doesn't work now
     endGame: function() {
         return clearInterval(this.intervalId);
     },
@@ -189,7 +190,7 @@ var Game = Class.create({
         this.grid = new Grid(
             new Size(this.canvasWidth, this.canvasHeight),
             '#ccc'
-        )
+        );
         this.grid.render(this.canvasBufferContext);
     }
 });

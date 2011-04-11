@@ -24,7 +24,6 @@ var StateMonsterExploring = Class.create(State, {
         if (this._randomNumber == 4) {
             this._randomNumber = 0;
             // this.monster.color = colors[randomNumber % 6];
-            // l(Object.toJSON(this.monster.bounds));
         }
         
         if (randomNumber % 30 == 1) {
