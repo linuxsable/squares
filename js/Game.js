@@ -1,8 +1,8 @@
 var Game = Class.create({
     initialize: function(msg) {
         this.canvas = null;
-        this.canvasWidth = 1024;
-        this.canvasHeight = 600;
+        this.canvasWidth = 900;
+        this.canvasHeight = 400;
         this.canvasContext = null;
         this.canvasBuffer = null;
         this.canvasBufferContext = null;
@@ -14,12 +14,14 @@ var Game = Class.create({
             player: null,
             monsters: []
         });
+        this.socket = null;
         
         this.initializeCanvas();
         this.initializeBoard();
         this.initializePlayer();
         this.initializeControlEvents();
-        this.initializeMonsters();
+        // this.initializeMonsters();
+        this.initializeSocket();
         
         this.startGame();
     },
@@ -156,7 +158,7 @@ var Game = Class.create({
     
     initializeMonsters: function() {
         // Setup the monsters
-        for (var i = 0; i < 200; i++) {
+        for (var i = 0; i < 20; i++) {
             this.entities.get('monsters').push(new Monster(
                 this,
                 Coord.getRandomInsideBoard(this),
@@ -172,5 +174,35 @@ var Game = Class.create({
             '#ccc'
         );
         this.grid.render(this.canvasBufferContext);
+    },
+    
+    initializeSocket: function() {
+        this.socket = new io.Socket('localhost', {
+            port: 8080,
+        });
+        this.socket.on('connect', function(obj) {
+            l('connected!');
+        });
+        this.socket.on('disconnect', function(obj) {
+            l('disconnected!');
+        });
+        this.socket.on('message', function(result) {
+            switch (result.method) {
+                case 'num_players':
+                    l('number of players: ' + result.message);
+                    break;
+                case 'im':
+                    l('message: ' + result.message);
+                    break;
+            }
+		});
+		this.socket.connect();
+		this.socket.send({
+		    method: 'num_players'
+		});
+		this.socket.send({
+		    method: 'im',
+		    message: Date.now()
+		})
     }
 });
