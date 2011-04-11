@@ -1,5 +1,6 @@
 var StateMonsterExploring = Class.create(State, {
     _randomNumber: 0,
+    _direction: null,
     
     initialize: function($super, monster) {
         if (!Helpers.checkType(monster, Monster)) {
@@ -14,26 +15,23 @@ var StateMonsterExploring = Class.create(State, {
         var movements = ['up', 'down', 'right', 'left'];
         var colors = ['pink', 'green', 'red', '#333', 'orange'];
         var randomNumber = Helpers.generateRandomNumber(100);
-        var a = movements[randomNumber % 4];
-        this.monster.move(a);
         
-        if (this._randomNumber < 5) {
-            this._randomNumber++;
-            // this.monster.velocity++;
-        }
-        if (this._randomNumber == 4) {
+        if (this._randomNumber > 30) {
             this._randomNumber = 0;
-            // this.monster.color = colors[randomNumber % 6];
+            this.direction = movements[randomNumber % 4];
+        } else {
+            this._randomNumber++;
         }
+        this.monster.move(this.direction);
         
-        if (randomNumber % 30 == 1) {
-            randomNumber = Helpers.generateRandomNumber(100);
-            if (randomNumber % 3 == 1) {
-                this.monster.decrementSize();
-            } else {
-                this.monster.incrementSize();
-            }
-        }
+        // if (randomNumber % 30 == 1) {
+        //     randomNumber = Helpers.generateRandomNumber(100);
+        //     if (randomNumber % 3 == 1) {
+        //         this.monster.decrementSize();
+        //     } else {
+        //         this.monster.incrementSize();
+        //     }
+        // }
         
         if (this.monster.size.width > 40) {
             this.monster.size = new Size(20, 20);
