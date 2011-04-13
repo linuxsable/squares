@@ -3,7 +3,6 @@ var Entity = Class.create({
         this.game = game;
         this.position = coord;
         this.size = size;
-        this.bounds = new Bounds(this.position, this.size);
         this.color = color;
         this.velocity = 2;
         this.destination = null;
@@ -46,7 +45,6 @@ var Entity = Class.create({
     // For fun :P
     teleport: function() {
         this.position = Coord.getRandomInsideBoard(this.game);
-        this._updateBounds();
         return this;
     },
     
