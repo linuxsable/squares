@@ -6,7 +6,7 @@ var Coord = Class.create({
     }
 });
 
-Coord.getRandomInsideBoard = function(game) {
+Coord.getRandomInsideCanvas = function(game) {
     return new Coord(
         Helpers.generateRandomNumber(game.canvasWidth),
         Helpers.generateRandomNumber(game.canvasHeight)

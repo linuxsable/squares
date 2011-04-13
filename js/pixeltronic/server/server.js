@@ -1,52 +1,51 @@
 var http = require('http'),
     io = require('socket.io'),
-    StandardResult = require('./StandardResult');
+    // This looks horrible & can't be right
+    StandardResult = require('./StandardResult').StandardResult;
     
-var PORT = 8080;
-
 server = http.createServer(function(req, res) {
-    res.writeHead(200, {'Content-Type': 'text/html'}); 
-    res.end('<h1>Hello world</h1>'); 
+    // Right here we can use this to have an html
+    // interface to the server with game stats, etc.
+    // Would be cool, yeah?
+    res.writeHead(200, {'Content-Type': 'text/html'});
+    res.end('game server'); 
 });
-server.listen(PORT);
+server.listen(8080);
 
 // socket.io 
-var socket = io.listen(server);
-var connections = 0;
+var socket = io.listen(server),
+    connections = 0;
+    
 socket.on('connection', function(client) {
     connections++;
-    console.log('client connected');
-    
-    client.on('message', function(m) {
-        var r = new result();
-        switch (m.method) {
-            case 'num_players':
-                console.log('num_players request');
-                r.message = connections;
-                r.error = false;
-                r.method = 'num_players';
-                client.send(r);
-                break;
-                
-            case 'im':
-                console.log('im request');
-                r.message = m.message;
-                r.error = false;
-                r.method = 'im';
-                client.broadcast(r);
-                break;
-            
-            case 'update_player':
-                console.log('update_player request');
-                console.log(m);
-                r.error = false;
-                r.method = 'update_player';
-                client.broadcast(r);
-                break;
-        }
-    });
     
     client.on('disconnect', function() {
         connections--;
+    });
+    
+    client.on('message', function(request) {
+        var result = new StandardResult();
+        result.method = request.method;
+        
+        console.log(request.method + ' request');
+        
+        switch (request.method) {
+            case 'num_players':
+                result.data = {
+                    'num_clients': connections
+                };
+                client.send(result);
+                break;
+
+            case 'update_player':
+                console.log(request.data.position);
+                result.data = request.data;
+                result.data.player_id = client.sessionId;
+                socket.broadcast(result);
+                break;
+                
+            default:
+                console.log('ERROR - Bad request method ' + request.method);
+        }
     });
 });

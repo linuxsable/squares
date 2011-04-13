@@ -44,12 +44,12 @@ var Entity = Class.create({
     
     // For fun :P
     teleport: function() {
-        this.position = Coord.getRandomInsideBoard(this.game);
+        this.position = Coord.getRandomInsideCanvas(this.game);
         return this;
     },
     
     randomDestination: function() {
-        this.destination = Coord.getRandomInsideBoard(this.game);
+        this.destination = Coord.getRandomInsideCanvas(this.game);
         return this;
     },
     
@@ -68,10 +68,11 @@ var Entity = Class.create({
     },
     
     _sendToServer: function() {
-        var pos = this.position;
-        this.game.socket.send({
-            method: 'update_player',
-            position: pos
-        });
+        var request = new StandardRequest();
+        request.method = 'update_player';
+        request.data = {
+            position: this.position
+        };
+        this.game.socket.send(request);
     }
 });

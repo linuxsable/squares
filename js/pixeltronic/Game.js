@@ -161,7 +161,7 @@ var Game = Class.create({
         for (var i = 0; i < 20; i++) {
             this.entities.get('monsters').push(new Monster(
                 this,
-                Coord.getRandomInsideBoard(this),
+                Coord.getRandomInsideCanvas(this),
                 new Size(20, 20),
                 '#ef4135'
             ));
@@ -189,15 +189,11 @@ var Game = Class.create({
         this.socket.on('message', function(result) {
             switch (result.method) {
                 case 'num_players':
-                    l('number of players: ' + result.message);
+                    l('number of players on server: ' + result.data.num_clients);
                     break;
                     
                 case 'update_player':
-                    l('test');
-                    break;
-                    
-                case 'im':
-                    l('message: ' + result.message);
+                    l(result);
                     break;
             }
 		});
