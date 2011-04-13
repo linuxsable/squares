@@ -191,6 +191,11 @@ var Game = Class.create({
                 case 'num_players':
                     l('number of players: ' + result.message);
                     break;
+                    
+                case 'update_player':
+                    l('test');
+                    break;
+                    
                 case 'im':
                     l('message: ' + result.message);
                     break;
@@ -200,9 +205,5 @@ var Game = Class.create({
 		this.socket.send({
 		    method: 'num_players'
 		});
-		this.socket.send({
-		    method: 'im',
-		    message: Date.now()
-		})
     }
 });

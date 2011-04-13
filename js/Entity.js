@@ -39,7 +39,7 @@ var Entity = Class.create({
                 this.position.x += this.velocity;
                 break;
         }
-        this._updateBounds();
+        this._sendToServer();
         return this;
     },
     
@@ -52,7 +52,6 @@ var Entity = Class.create({
     
     randomDestination: function() {
         this.destination = Coord.getRandomInsideBoard(this.game);
-        this._updateBounds();
         return this;
     },
     
@@ -60,7 +59,6 @@ var Entity = Class.create({
         sensitivity = sensitivity || 5;
         this.size.width += sensitivity;
         this.size.height += sensitivity;
-        this._updateBounds();
         return this;
     },
     
@@ -68,11 +66,14 @@ var Entity = Class.create({
         sensitivity = sensitivity || 5;
         this.size.width -= sensitivity;
         this.size.height -= sensitivity;
-        this._updateBounds();
         return this;
     },
     
-    _updateBounds: function() {
-        this.bounds = new Bounds(this.position, this.size);
+    _sendToServer: function() {
+        var pos = this.position;
+        this.game.socket.send({
+            method: 'update_player',
+            position: pos
+        });
     }
 });
