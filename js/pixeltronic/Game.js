@@ -179,7 +179,6 @@ var Game = Class.create({
     
     initializeSocket: function() {
         var that = this;
-        var once = false;
         
         this.socket = new io.Socket('localhost', {
             port: 8080,
@@ -203,19 +202,16 @@ var Game = Class.create({
                 // Will only run once to give current
                 // players and their positions
                 case 'connectedPlayers':
-                    if (once) {
-                        return;
-                    }
+                    l(result);
                     var playerPositions = $H(result.data.playerPositions);
                     playerPositions.each(function(_dude) {
                         var _playerId = that.entities.get('player').id;
                         var _dudeId = _dude[0];                        
                         if (_dudeId != _playerId) {
-                            // Create the team mate entities
+                            // Create the coords entities initially
                             l(_dudeId);
                         }
                     });
-                    once = true;
                     break;
                 
                 case 'numPlayers':
@@ -223,6 +219,7 @@ var Game = Class.create({
                     break;
                     
                 case 'updatePlayer':
+                    // Update the dudes coords
                     l(result);
                     break;
             }

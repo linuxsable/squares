@@ -22,13 +22,14 @@ _.l = function(v) {
 }
     
 socket.on('connection', function(client) {    
+    playerPositions[client.sessionId] = {};
     var result = new StandardResult('connectedPlayers', {
-        playerPositions: playerPositions
+        positions: playerPositions
     });
     socket.broadcast(result);
     
     client.on('disconnect', function() {
-        
+        delete playerPositions[client.sessionId];
     });
     
     client.on('message', function(request) {
@@ -47,8 +48,11 @@ socket.on('connection', function(client) {
             case 'updatePlayer':
                 var id = request.data.id;
                 playerPositions[id] = request.data.position;
-                _.l(playerPositions);
-                socket.broadcast(playerPositions);
+                result.data = {
+                    positions: playerPositions,
+                    id: id
+                };
+                socket.broadcast(result);
                 break;
                 
             default:
