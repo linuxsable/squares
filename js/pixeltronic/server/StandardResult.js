@@ -1,8 +1,8 @@
 exports.StandardResult = (function() {
-    function StandardResult() {
+    function StandardResult(method, data) {
         this.error = false;
-        this.method = null;
-        this.data = {};
+        this.method = method;
+        this.data = data || {};
         this.meta = {};
     }
     return StandardResult;

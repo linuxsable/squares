@@ -1,6 +1,6 @@
 var StandardRequest = Class.create({
-    initialize: function() {
-        this.method = null;
-        this.data = {};
+    initialize: function(method, data) {
+        this.method = method;
+        this.data = data || {};
     }
 });

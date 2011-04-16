@@ -12,6 +12,7 @@ var Game = Class.create({
         this.board = null;
         this.entities = $H({
             player: null,
+            dudes: [],
             monsters: []
         });
         this.socket = null;
@@ -177,29 +178,64 @@ var Game = Class.create({
     },
     
     initializeSocket: function() {
+        var that = this;
+        var once = false;
+        
         this.socket = new io.Socket('localhost', {
             port: 8080,
         });
-        this.socket.on('connect', function(obj) {
+        
+        this.socket.on('connect', function() {
+            var player = that.entities.get('player');
+            player.id = this.transport.sessionid;
+            
+            // Get list of clients connected
+            // Create an entity for them with their current coords
             l('connected!');
         });
+        
         this.socket.on('disconnect', function(obj) {
             l('disconnected!');
         });
+        
         this.socket.on('message', function(result) {
             switch (result.method) {
-                case 'num_players':
-                    l('number of players on server: ' + result.data.num_clients);
+                // Will only run once to give current
+                // players and their positions
+                case 'connectedPlayers':
+                    if (once) {
+                        return;
+                    }
+                    var playerPositions = $H(result.data.playerPositions);
+                    playerPositions.each(function(_dude) {
+                        var _playerId = that.entities.get('player').id;
+                        var _dudeId = _dude[0];                        
+                        if (_dudeId != _playerId) {
+                            // Create the team mate entities
+                            l(_dudeId);
+                        }
+                    });
+                    once = true;
+                    break;
+                
+                case 'numPlayers':
+                    l('number of players on server: ' + result.data.numPlayers);
                     break;
                     
-                case 'update_player':
+                case 'updatePlayer':
                     l(result);
                     break;
             }
 		});
+		
 		this.socket.connect();
-		this.socket.send({
-		    method: 'num_players'
-		});
+		
+        // Request for number of players
+		var request = new StandardRequest('numPlayers');
+		this.socket.send(request);
+    },
+    
+    initializeDudes: function() {
+        
     }
 });

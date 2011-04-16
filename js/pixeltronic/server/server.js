@@ -1,6 +1,7 @@
 var http = require('http'),
     io = require('socket.io'),
-    // This looks horrible & can't be right
+    _ = require('underscore'),
+    // This looks horrible & can't be right, but it works
     StandardResult = require('./StandardResult').StandardResult;
     
 server = http.createServer(function(req, res) {
@@ -13,39 +14,45 @@ server = http.createServer(function(req, res) {
 server.listen(8080);
 
 // socket.io 
-var socket = io.listen(server),
-    connections = 0;
+var socket = io.listen(server);
+var playerPositions = {};
+
+_.l = function(v) {
+    console.log(v);
+}
     
-socket.on('connection', function(client) {
-    connections++;
+socket.on('connection', function(client) {    
+    var result = new StandardResult('connectedPlayers', {
+        playerPositions: playerPositions
+    });
+    socket.broadcast(result);
     
     client.on('disconnect', function() {
-        connections--;
+        
     });
     
     client.on('message', function(request) {
-        var result = new StandardResult();
-        result.method = request.method;
+        var result = new StandardResult(request.method);
         
-        console.log(request.method + ' request');
+        _.l('REQUEST: ' + request.method);
         
         switch (request.method) {
-            case 'num_players':
+            case 'numPlayers':
                 result.data = {
-                    'num_clients': connections
+                    'numPlayers': _.size(socket.clients)
                 };
                 client.send(result);
                 break;
 
-            case 'update_player':
-                console.log(request.data.position);
-                result.data = request.data;
-                result.data.player_id = client.sessionId;
-                socket.broadcast(result);
+            case 'updatePlayer':
+                var id = request.data.id;
+                playerPositions[id] = request.data.position;
+                _.l(playerPositions);
+                socket.broadcast(playerPositions);
                 break;
                 
             default:
-                console.log('ERROR - Bad request method ' + request.method);
+                console.log('ERROR: Bad request method ' + request.method);
         }
     });
 });

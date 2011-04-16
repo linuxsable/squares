@@ -14,6 +14,11 @@ var Player = Class.create(Entity, {
         );
     },
     
+    move: function($super, direction) {
+       $super(direction);
+       this._sendToServer();
+    },
+    
     update: function() {
         var k = this.keyHandler;
         if (k.isDown(k.UP)) {
@@ -29,5 +34,13 @@ var Player = Class.create(Entity, {
             this.move('right');
         }
         this.mind.think();
+    },
+    
+    _sendToServer: function() {
+        var request = new StandardRequest('updatePlayer', {
+            id: this.id,
+            position: this.position
+        });
+        this.game.socket.send(request);
     }
 });

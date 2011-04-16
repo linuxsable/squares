@@ -38,7 +38,6 @@ var Entity = Class.create({
                 this.position.x += this.velocity;
                 break;
         }
-        this._sendToServer();
         return this;
     },
     
@@ -65,14 +64,5 @@ var Entity = Class.create({
         this.size.width -= sensitivity;
         this.size.height -= sensitivity;
         return this;
-    },
-    
-    _sendToServer: function() {
-        var request = new StandardRequest();
-        request.method = 'update_player';
-        request.data = {
-            position: this.position
-        };
-        this.game.socket.send(request);
     }
 });
