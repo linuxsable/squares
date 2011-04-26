@@ -202,8 +202,8 @@ var Game = Class.create({
                 // Will only run once to give current
                 // players and their positions
                 case 'connectedPlayers':
-                    l(result);
                     var playerPositions = $H(result.data.playerPositions);
+                    l(playerPositions);
                     playerPositions.each(function(_dude) {
                         var _playerId = that.entities.get('player').id;
                         var _dudeId = _dude[0];                        
@@ -222,6 +222,9 @@ var Game = Class.create({
                     // Update the dudes coords
                     l(result);
                     break;
+                
+                default:
+                    console.error('ERROR: Bad result method ' + result.method);
             }
 		});
 		
