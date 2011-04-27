@@ -1,4 +1,4 @@
-var Player = Class.create(Entity, {
+var Player = Class.extend(Entity, {
     render: function() {
         var context = this.game.canvasBufferContext;
         context.fillStyle = this.color;
@@ -14,8 +14,8 @@ var Player = Class.create(Entity, {
         );
     },
     
-    move: function($super, direction) {
-       $super(direction);
+    move: function(direction) {
+       this._super(direction);
        this._sendToServer();
     },
     

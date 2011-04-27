@@ -1,5 +1,5 @@
-var Vector = Class.create({
-    initialize: function(x, y) {
+var Vector = Class.extend({
+    init: function(x, y) {
         this.x = x || 0;
         this.y = y || 0;
     },

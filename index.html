@@ -8,42 +8,43 @@
 		<canvas id="game"></canvas>
 	</body>
 	<!-- Vendor -->
-	<script src="js/pixeltronic/vendor/prototype.js" type="text/javascript" charset="utf-8"></script>
-	<script src="js/pixeltronic/vendor/socket.io.js" type="text/javascript" charset="utf-8"></script>
-	
+	<script src="js/vendor/jquery-1.5.2.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/vendor/socket.io.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/vendor/oo.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/vendor/windowframefix.js" type="text/javascript" charset="utf-8"></script>
+	                
 	<!-- Exceptions -->
-	<script src="js/pixeltronic/Exception.js" type="text/javascript" charset="utf-8"></script>
-	<script src="js/pixeltronic/EntityException.js" type="text/javascript" charset="utf-8"></script>
-	<script src="js/pixeltronic/TypeException.js" type="text/javascript" charset="utf-8"></script>
-	
-	<!-- States -->
-	<script src="js/pixeltronic/StateMachine.js" type="text/javascript" charset="utf-8"></script>
-	<script src="js/pixeltronic/State.js" type="text/javascript" charset="utf-8"></script>
-	<script src="js/pixeltronic/StateMonsterExploring.js" type="text/javascript" charset="utf-8"></script>
-	<script src="js/pixeltronic/StateMonsterStalled.js" type="text/javascript" charset="utf-8"></script>
-	
+	<script src="js/Exception.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/EntityException.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/TypeException.js" type="text/javascript" charset="utf-8"></script>
+	                
+	<!-- States --> 
+	<script src="js/StateMachine.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/State.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/StateMonsterExploring.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/StateMonsterStalled.js" type="text/javascript" charset="utf-8"></script>
+	                
 	<!-- Entities -->
-	<script src="js/pixeltronic/Entity.js" type="text/javascript" charset="utf-8"></script>
-	<script src="js/pixeltronic/Player.js" type="text/javascript" charset="utf-8"></script>
-	
-	<!-- NPCs -->
-	<script src="js/pixeltronic/Monster.js" type="text/javascript" charset="utf-8"></script>
-	
-	<!-- Random -->
-	<script src="js/pixeltronic/Game.js" type="text/javascript" charset="utf-8"></script>
-	<script src="js/pixeltronic/Helpers.js" type="text/javascript" charset="utf-8"></script>
-	<script src="js/pixeltronic/Board.js" type="text/javascript" charset="utf-8"></script>
-	<script src="js/pixeltronic/Coord.js" type="text/javascript" charset="utf-8"></script>
-	<script src="js/pixeltronic/Vector.js" type="text/javascript" charset="utf-8"></script>
-	<script src="js/pixeltronic/Size.js" type="text/javascript" charset="utf-8"></script>
-	<script src="js/pixeltronic/KeyHandler.js" type="text/javascript" charset="utf-8"></script>
-	<script src="js/pixeltronic/Grid.js" type="text/javascript" charset="utf-8"></script>
-	<script src="js/pixeltronic/WindowEachFrameFix.js" type="text/javascript" charset="utf-8"></script>
-	<script src="js/pixeltronic/StandardRequest.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/Entity.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/Player.js" type="text/javascript" charset="utf-8"></script>
+	                
+	<!-- NPCs -->   
+	<script src="js/Monster.js" type="text/javascript" charset="utf-8"></script>
+	                
+	<!-- Random --> 
+	<script src="js/Game.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/Helpers.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/Board.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/Coord.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/Vector.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/Size.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/KeyHandler.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/Grid.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/StandardRequest.js" type="text/javascript" charset="utf-8"></script>
 	
 	<script type="text/javascript" charset="utf-8">
 		var squares;
-		document.observe('dom:loaded', function() {
+		$(document).ready(function() {
 			squares = new Game();
 		});
 	</script>

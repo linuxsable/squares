@@ -1,6 +1,6 @@
 // Basic coordinate
-var Coord = Class.create({
-    initialize: function(x, y) {
+var Coord = Class.extend({
+    init: function(x, y) {
         this.x = x;
         this.y = y;
     }

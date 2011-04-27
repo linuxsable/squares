@@ -1,5 +1,5 @@
-var Entity = Class.create({
-    initialize: function(game, coord, size, color) {
+var Entity = Class.extend({
+    init: function(game, coord, size, color) {
         this.game = game;
         this.position = coord;
         this.size = size;

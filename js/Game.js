@@ -1,5 +1,5 @@
-var Game = Class.create({
-    initialize: function(msg) {
+var Game = Class.extend({
+    init: function(msg) {
         this.canvas = null;
         this.canvasWidth = 900;
         this.canvasHeight = 400;
@@ -10,14 +10,14 @@ var Game = Class.create({
         this.fps = 60;
         this.grid = null;
         this.board = null;
-        this.entities = $H({
+        this.entities = {
             player: null,
             dudes: [],
             monsters: []
-        });
+        };
         this.socket = null;
         
-        this.initializeCanvas();
+        this.initCanvas();
         this.initializeBoard();
         this.initializePlayer();
         this.initializeControlEvents();
@@ -27,15 +27,15 @@ var Game = Class.create({
         this.startGame();
     },
     
-    initializeCanvas: function() {
-        this.canvas = $('game');
-        this.canvas.writeAttribute({
-            'width': this.canvasWidth,
-            'height': this.canvasHeight
+    initCanvas: function() {
+        this.canvas = $('#game');
+        this.canvas.attr({
+            width: this.canvasWidth,
+            height: this.canvasHeight
         });
         if (this.canvas && this.canvas.getContext) {
             this.canvasContext = this.canvas.getContext('2d');
-            this.canvasBuffer = new Element('canvas');
+            this.canvasBuffer = $('<canvas>');
             this.canvasBuffer.width = this.canvasWidth;
             this.canvasBuffer.height = this.canvasHeight;
             this.canvasBufferContext = this.canvasBuffer.getContext('2d');    
@@ -50,12 +50,12 @@ var Game = Class.create({
     
     // Handle keyboard input for controls
     initializeControlEvents: function() {
-        var player = this.entities.get('player');
-        $(document).observe('keydown', function(event) {
-            player.keyHandler.onKeydown(event);
+        var player = this.entities.player;
+        $(document).bind('keydown', function(e) {
+            player.keyHandler.onKeydown(e);
         });
-        $(document).observe('keyup', function(event) {
-            player.keyHandler.onKeyup(event);
+        $(document).bind('keyup', function(e) {
+            player.keyHandler.onKeyup(e);
         });
     },
     
@@ -106,40 +106,40 @@ var Game = Class.create({
         
         // Loop through all the known entities
         // and run their individual render methods.
-        this.entities.each(function(entity) {
-            if (Object.isArray(entity.value)) {
-                entity.value.each(function(subEntity) {
+        $.each(this.entities, function(index, entity) {
+            if ($.isArray(entity)) {
+                $.each(entity, function(index, subEntity) {
                     if (false === (subEntity instanceof Entity)) {
                         return;
                     }
-                    if (Object.isFunction(subEntity.render)) {
+                    if (typeof subEntity.render === 'function') {
                         subEntity.render();
                     }
                 });
             } else {
-                if (!entity.value) return;
-                if (Object.isFunction(entity.value.render)) {
-                    entity.value.render();
+                if (!entity) return;
+                if (typeof entity.render === 'function') {
+                    entity.render();
                 }
             }
         });
     },
     
     updateEntities: function() {
-        this.entities.each(function(entity) {
-            if (Object.isArray(entity.value)) {
-                entity.value.each(function(subEntity) {
+        $.each(this.entities, function(index, entity) {
+            if ($.isArray(entity)) {
+                $.each(entity, function(index, subEntity) {
                     if (false === (subEntity instanceof Entity)) {
                         return;
                     }
-                    if (Object.isFunction(subEntity.update)) {
+                    if (typeof subEntity.update === 'function') {
                         subEntity.update();
                     }
                 });
             } else {
-                if (!entity.value) return;
-                if (Object.isFunction(entity.value.update)) {
-                    entity.value.update();
+                if (!entity) return;
+                if (typeof entity.update === 'function') {
+                    entity.update();
                 }
             }
         });
@@ -147,20 +147,20 @@ var Game = Class.create({
     
     initializePlayer: function() {
         // There's only one player in the game, YOU
-        if (false === (this.entities.get('player') instanceof Player)) {
-            this.entities.set('player', new Player(
+        if (false === (this.entities.player instanceof Player)) {
+            this.entities.player = new Player(
                 this,
                 new Coord(this.canvasWidth / 2, this.canvasHeight / 2),
                 new Size(30, 30),
                 '#008fc5'
-            ));
+            );
         }
     },
     
     initializeMonsters: function() {
         // Setup the monsters
         for (var i = 0; i < 20; i++) {
-            this.entities.get('monsters').push(new Monster(
+            this.entities.monsters.push(new Monster(
                 this,
                 Coord.getRandomInsideCanvas(this),
                 new Size(20, 20),
@@ -185,7 +185,7 @@ var Game = Class.create({
         });
         
         this.socket.on('connect', function() {
-            var player = that.entities.get('player');
+            var player = that.entities.player;
             player.id = this.transport.sessionid;
             
             // Get list of clients connected
@@ -202,10 +202,10 @@ var Game = Class.create({
                 // Will only run once to give current
                 // players and their positions
                 case 'connectedPlayers':
-                    var playerPositions = $H(result.data.playerPositions);
+                    var playerPositions = result.data.playerPositions;
                     l(playerPositions);
-                    playerPositions.each(function(_dude) {
-                        var _playerId = that.entities.get('player').id;
+                    $.each(playerPositions, function(index, _dude) {
+                        var _playerId = that.entities.player.id;
                         var _dudeId = _dude[0];                        
                         if (_dudeId != _playerId) {
                             // Create the coords entities initially

@@ -1,8 +1,7 @@
 var http = require('http'),
     io = require('socket.io'),
     _ = require('underscore'),
-    // This looks horrible & can't be right, but it works
-    StandardResult = require('./StandardResult');
+    StandardResult = require('../StandardResult');
     
 server = http.createServer(function(req, res) {
     // Right here we can use this to have an html

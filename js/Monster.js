@@ -1,6 +1,6 @@
-var Monster = Class.create(Entity, {
-    initialize: function($super, game, coord, size, color) {
-        $super(game, coord, size, color);
+var Monster = Class.extend(Entity, {
+    init: function(game, coord, size, color) {
+        this._super(game, coord, size, color);
         this.mind.addState(new StateMonsterExploring(this));
         this.mind.addState(new StateMonsterStalled(this));
         this.mind.setState('exploring');

@@ -1,12 +1,12 @@
-var StateMonsterStalled = Class.create(State, {
+var StateMonsterStalled = Class.extend(State, {
     rendered: false,
     
-    initialize: function($super, monster) {
+    initialize: function(monster) {
         if (!Helpers.checkType(monster, Monster)) {
             throw new TypeException('Param monster not of correct type');
         }
         this.monster = monster;
-        $super('stalled');
+        this._super('stalled');
     },
     
     doActions: function() {

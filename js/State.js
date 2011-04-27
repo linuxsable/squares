@@ -1,6 +1,6 @@
 // State superclass for finite stat machine
-var State = Class.create({
-    initialize: function(name) {
+var State = Class.extend({
+    init: function(name) {
         this.name = name;
     },
     

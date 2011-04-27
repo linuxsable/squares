@@ -1,19 +1,19 @@
 // Finite state machine
-var StateMachine = Class.create({
-    initialize: function() {
-        this.states = $H();
+var StateMachine = Class.extend({
+    init: function() {
+        this.states = {};
         this.activeState = null;
     },
     
     addState: function(state) {
-        this.states.set(state.name, state);
+        this.states[state.name] = state;
     },
     
     setState: function(state) {
         if (this.activeState !== null) {
             this.activeState.exitActions();
         }
-        this.activeState = this.states.get(state);
+        this.activeState = this.states[state];
         this.activeState.entryActions();
     },
     

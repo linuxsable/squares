@@ -1,5 +1,5 @@
-var Size = Class.create({
-    initialize: function(width, height) {
+var Size = Class.extend({
+    init: function(width, height) {
         this.width = width;
         this.height = height;
     }

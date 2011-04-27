@@ -2,6 +2,7 @@
  * By John Resig http://ejohn.org/
  * MIT Licensed.
  */
+// More info: http://ejohn.org/blog/simple-javascript-inheritance/
 // Inspired by base2 and Prototype
 (function(){
   var initializing = false, fnTest = /xyz/.test(function(){xyz;}) ? /\b_super\b/ : /.*/;

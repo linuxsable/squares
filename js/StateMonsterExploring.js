@@ -1,14 +1,14 @@
-var StateMonsterExploring = Class.create(State, {
+var StateMonsterExploring = Class.extend(State, {
     _randomNumber: 0,
     _direction: null,
     
-    initialize: function($super, monster) {
+    init: function(monster) {
         if (!Helpers.checkType(monster, Monster)) {
             throw new TypeException('Param monster not of correct type');
         }
         this.monster = monster;
         this.monster.velocity = 1;
-        $super('exploring');
+        this._super('exploring');
     },
     
     doActions: function() {

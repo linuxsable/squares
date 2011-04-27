@@ -1,6 +1,6 @@
-var EntityException = Class.create(Exception, {
-    initialize: function($super, message) {
-        $super(message);
+var EntityException = Class.extend(Exception, {
+    init: function(message) {
+        this._super(message);
         this.name = 'EntityException';
     }
 });

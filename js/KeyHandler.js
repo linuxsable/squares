@@ -1,6 +1,6 @@
 // Handle keyboard key input smoothly
-var KeyHandler = Class.create({
-    initialize: function() {
+var KeyHandler = Class.extend({
+    init: function() {
         this.pressed = {};
         this.UP = 87;
         this.DOWN = 83;

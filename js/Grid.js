@@ -1,5 +1,5 @@
-var Grid = Class.create({
-    initialize: function() {
+var Grid = Class.extend({
+    init: function() {
         
     }
 });

@@ -5,6 +5,10 @@ var Helpers = {
         }
         return true;
     },
+    
+    isFunction: function(obj, type) {
+        return checkType(obj, type);
+    },
 
     // Generate a random number. Max length is the largest
     // value the random number will go to. This generator
