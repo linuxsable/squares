@@ -21,21 +21,21 @@ var Game = Class.extend({
         this.initializeBoard();
         this.initializePlayer();
         this.initializeControlEvents();
-        // this.initializeMonsters();
+        this.initializeMonsters();
         this.initializeSocket();
         
         this.startGame();
     },
     
     initCanvas: function() {
-        this.canvas = $('#game');
-        this.canvas.attr({
+        this.canvas = $('#game')[0];
+        $(this.canvas).attr({
             width: this.canvasWidth,
             height: this.canvasHeight
         });
         if (this.canvas && this.canvas.getContext) {
             this.canvasContext = this.canvas.getContext('2d');
-            this.canvasBuffer = $('<canvas>');
+            this.canvasBuffer = $('<canvas>')[0];
             this.canvasBuffer.width = this.canvasWidth;
             this.canvasBuffer.height = this.canvasHeight;
             this.canvasBufferContext = this.canvasBuffer.getContext('2d');    

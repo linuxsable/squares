@@ -1,4 +1,4 @@
-var StateMonsterExploring = Class.extend(State, {
+var StateMonsterExploring = State.extend({
     _randomNumber: 0,
     _direction: null,
     

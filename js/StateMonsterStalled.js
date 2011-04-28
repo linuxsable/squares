@@ -1,4 +1,4 @@
-var StateMonsterStalled = Class.extend(State, {
+var StateMonsterStalled = State.extend({
     rendered: false,
     
     initialize: function(monster) {

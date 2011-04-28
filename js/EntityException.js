@@ -1,4 +1,4 @@
-var EntityException = Class.extend(Exception, {
+var EntityException = Exception.extend({
     init: function(message) {
         this._super(message);
         this.name = 'EntityException';

@@ -1,4 +1,4 @@
-var Player = Class.extend(Entity, {
+var Player = Entity.extend({
     render: function() {
         var context = this.game.canvasBufferContext;
         context.fillStyle = this.color;

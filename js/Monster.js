@@ -1,4 +1,4 @@
-var Monster = Class.extend(Entity, {
+var Monster = Entity.extend({
     init: function(game, coord, size, color) {
         this._super(game, coord, size, color);
         this.mind.addState(new StateMonsterExploring(this));

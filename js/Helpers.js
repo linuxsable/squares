@@ -6,8 +6,8 @@ var Helpers = {
         return true;
     },
     
-    isFunction: function(obj, type) {
-        return checkType(obj, type);
+    isFunction: function(obj) {
+        return (typeof obj === 'function');
     },
 
     // Generate a random number. Max length is the largest
