@@ -1,7 +1,7 @@
 var Game = Class.extend({
     init: function(msg) {
         this.canvas = null;
-        this.canvasWidth = 900;
+        this.canvasWidth = 400;
         this.canvasHeight = 400;
         this.canvasContext = null;
         this.canvasBuffer = null;
@@ -21,7 +21,7 @@ var Game = Class.extend({
         this.initializeBoard();
         this.initializePlayer();
         this.initializeControlEvents();
-        this.initializeMonsters();
+        // this.initializeMonsters();
         this.initializeSocket();
         
         this.startGame();
@@ -181,7 +181,7 @@ var Game = Class.extend({
         var that = this;
         
         this.socket = new io.Socket('localhost', {
-            port: 8080,
+            port: 8080
         });
         
         this.socket.on('connect', function() {
@@ -198,18 +198,32 @@ var Game = Class.extend({
         });
         
         this.socket.on('message', function(result) {
+            var playerId = that.entities.player.id;
             switch (result.method) {
                 // Will only run once to give current
                 // players and their positions
                 case 'connectedPlayers':
-                    var playerPositions = result.data.playerPositions;
-                    l(playerPositions);
-                    $.each(playerPositions, function(index, _dude) {
-                        var _playerId = that.entities.player.id;
-                        var _dudeId = _dude[0];                        
-                        if (_dudeId != _playerId) {
-                            // Create the coords entities initially
-                            l(_dudeId);
+                    var playerPositions = result.data.positions;
+                    $.each(playerPositions, function(dudeId, pos) {
+                        if (dudeId !== playerId) {
+                            // We're going to suppose right now that if
+                            // the dude doesn't have coords, he is still in the
+                            // initial spawn point.
+                            if (pos.x == undefined && pos.y == undefined) {
+                                pos = new Coord(
+                                    this.canvasWidth / 2,
+                                    this.canvasHeight / 2
+                                );
+                            }
+                            // Create him on our canvas
+                            var temp = new Player(
+                                that,
+                                pos,
+                                new Size(30, 30),
+                                'green'
+                            );
+                            temp.id = dudeId;
+                            that.entities.dudes.push(temp);
                         }
                     });
                     break;
@@ -220,7 +234,19 @@ var Game = Class.extend({
                     
                 case 'updatePlayer':
                     // Update the dudes coords
-                    l(result);
+                    var playerPositions = result.data.positions;
+                    $.each(playerPositions, function(dudeId, pos) {
+                        // l('dude-id: '+dudeId+ ' pos: '+pos)
+                        if (dudeId !== playerId) {
+                            for (var i = 0, l = that.entities.dudes.length; i < l; i++) {
+                                var temp = that.entities.dudes[i];
+                                if (temp.id === dudeId) {
+                                    temp.position = pos;
+                                    break;
+                                }
+                            };
+                        }
+                    });
                     break;
                 
                 default:

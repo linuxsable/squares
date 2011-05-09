@@ -16,14 +16,14 @@ server.listen(8080);
 var socket = io.listen(server);
 var playerPositions = {};
     
-socket.on('connection', function(client) {    
+socket.on('connection', function(client) {
     playerPositions[client.sessionId] = {};
+    
+    // Send current player positions
     var result = new StandardResult('connectedPlayers', {
         positions: playerPositions
     });
     client.send(result);
-    
-    console.log(result);
     
     client.on('disconnect', function() {
         delete playerPositions[client.sessionId];
