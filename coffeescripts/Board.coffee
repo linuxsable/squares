@@ -5,7 +5,7 @@ class Board
     # I belive this logic is right,
     # will need to be checked
     while temp > 1
-      @matrix.push []
+      @matrix.push([])
       temp--
       
   setOccupant: (coord, occupant) ->
