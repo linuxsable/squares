@@ -1,8 +1,8 @@
 class Game
   constructor: ->
     @canvas = null
-    @canvasWidth = 400
-    @canvasHeight = 400
+    @canvasWidth = 1024
+    @canvasHeight = 600
     @canvasContext = null
     @canvasBuffer = null
     @canvasBufferContext = null
@@ -14,7 +14,6 @@ class Game
     
     @entities = {
       player: null,
-      dudes: [],
       monsters: []
     }
     @socket = null
@@ -23,8 +22,8 @@ class Game
     @initCanvas()
     @initBoard()
     @initPlayer()
+    @initMonsters()
     @initControlEvents()
-    @initSocket()
     
     # Start that ish!
     @startGame()
@@ -148,66 +147,3 @@ class Game
       '#ccc'
     )
     @grid.render(@canvasBufferContext)
-    
-  # Experimental multiplayer
-  initSocket: ->
-    that = this
-    
-    @socket = new io.Socket('localhost', port: 8080)
-    
-    @socket.on 'connect', ->
-      player = @entities.player
-      player.id = this.transport.sessionId
-      l('connected!')
-      
-    @socket.on 'disconnect', (obj) ->
-      l('disconnected')
-      
-    @socket.on 'message', (result) ->
-      playerId = @entities.player.id
-      switch result.method
-        # Will only run once to give current
-        # players and their positions
-        when 'connectedPlayers'
-          playerPositions = result.data.positions
-          for dudeId, pos of playerPositions
-            if dudeId != playerId
-              # We're going to suppose right now that if
-              # the dude doesn't have coords, he is still in the
-              # initial spawn point.
-              if pos.x == undefined and pos.y == undefined
-                pos = new Coord(
-                  @canvasWidth / 2,
-                  @canvasheight / 2
-                )
-              # Create him on our canvas
-              temp = new Player(
-                that,
-                pos,
-                new Size(30, 30),
-                'green'
-              )
-              temp.id = dudeId
-              that.entities.dudes.push(temp)
-        
-        when 'numPlayers'
-          l('number of players on server:' + result.data.numPlayers)
-        
-        when 'updatePlayer'
-          # Update the dudes coords
-          playerPositions = result.data.positions
-          for dudeId, pos of playerPositions
-            if dudeId != playerId
-              for temp in that.entities.dudes
-                if temp.id == dudeId
-                  temp.position = pos
-                  break
-        
-        else
-          console.error('ERROR: Bad result method: ' + result.method)
-          
-      @socket.connect()
-      
-      # request for number of players
-      request = new StandardRequest('numPlayers')
-      @socket.send(request)

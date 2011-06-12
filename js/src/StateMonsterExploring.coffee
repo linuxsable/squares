@@ -31,7 +31,7 @@ class StateMonsterExploring extends State
       @monster.size = new Size(10, 10)
       
   checkConditions: ->
-    if @monster.size.width > 21
+    # if @monster.size.width > 21
       # return 'stalled'
       
   entryActions: ->

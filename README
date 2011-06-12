@@ -1,1 +1,11 @@
 A game. With squares. Endless possibility.
+
+Development
+--
+Requires Coffeescript (https://github.com/jashkenas/coffee-script).
+
+To compile all coffeescript files into js/lib:
+coffee -o js/lib/ -c js/src/
+
+And to compile all coffeescript files in realtime while coding:
+coffee -w -o js/lib/ -c js/src/
