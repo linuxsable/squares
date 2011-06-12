@@ -7,11 +7,11 @@ class Entity
     @id = 0
     @keyHandler = new KeyHandler
     
+  # prototype
   destroy: ->
-    return
     
+  # prototype
   render: ->
-    return
     
   update: ->
     @mind.think()

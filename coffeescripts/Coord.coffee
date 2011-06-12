@@ -1,6 +1,5 @@
 class Coord
   constructor: (@x, @y) ->
-    return
   
   # This should work
   @getRandomInsideCanvas: (game) ->
