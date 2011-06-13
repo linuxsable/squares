@@ -1,4 +1,4 @@
-var StateMonsterFleeing;
+var StateMonsterExploring;
 var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
   for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
   function ctor() { this.constructor = child; }
@@ -7,13 +7,13 @@ var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, par
   child.__super__ = parent.prototype;
   return child;
 };
-StateMonsterFleeing = (function() {
-  function StateMonsterFleeing(monster) {
+StateMonsterExploring = (function() {
+  function StateMonsterExploring(monster) {
     this.monster = monster;
-    StateMonsterFleeing.__super__.constructor.call(this, 'exploring');
+    StateMonsterExploring.__super__.constructor.call(this, 'exploring');
   }
-  __extends(StateMonsterFleeing, State);
-  StateMonsterFleeing.prototype.doActions = function() {
+  __extends(StateMonsterExploring, State);
+  StateMonsterExploring.prototype.doActions = function() {
     var colors, direction, movements, randomNumber;
     movements = ['up', 'down', 'right', 'left'];
     colors = ['pink', 'green', 'red', '#333', 'orange'];
@@ -21,7 +21,7 @@ StateMonsterFleeing = (function() {
     direction = movements[randomNumber % 4];
     return this.monster.move(direction);
   };
-  StateMonsterFleeing.prototype.checkConditions = function() {
+  StateMonsterExploring.prototype.checkConditions = function() {
     var n, player;
     player = this.monster.game.getPlayer();
     n = 50;
@@ -29,9 +29,9 @@ StateMonsterFleeing = (function() {
       return 'fleeing';
     }
   };
-  StateMonsterFleeing.prototype.entryActions = function() {
+  StateMonsterExploring.prototype.entryActions = function() {
     this.monster.velocity = 0.3;
     return this.monster.color = '#333';
   };
-  return StateMonsterFleeing;
+  return StateMonsterExploring;
 })();

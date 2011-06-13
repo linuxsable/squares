@@ -1,7 +1,7 @@
 # This state is going to be what the monster
 # turns on if the player gets near him. It shouldn't
 # allow the player to touch the monster because he flees away
-class StateMonsterExploring extends State
+class StateMonsterFleeing extends State
   constructor: (@monster) ->
     @monster.velocity = 1
     super('fleeing')

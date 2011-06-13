@@ -1,4 +1,4 @@
-class StateMonsterFleeing extends State
+class StateMonsterExploring extends State
   constructor: (@monster) ->
     super('exploring')
     
