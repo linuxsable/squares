@@ -1,7 +1,5 @@
-(function() {
-  var Gird;
-  Gird = (function() {
-    function Gird() {}
-    return Gird;
-  })();
-}).call(this);
+var Gird;
+Gird = (function() {
+  function Gird() {}
+  return Gird;
+})();

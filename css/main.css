@@ -1,7 +1,7 @@
 body {
     font: 12px Helvetica, sans-serif;
     color: #222;
-    background-color: #fefefe;
+    background-color: #000;
 }
 
 h1 {
@@ -11,12 +11,11 @@ h1 {
 
 #wrapper {
     width: 1024px;
-    margin: auto;
+    margin: 0 auto;
 }
 
 #game {
-    margin: 0 auto;
-    border: 3px solid #ccc;
+    border: 3px solid #222;
 }
 
 #logo {

@@ -3,7 +3,7 @@ class Coord
   
   # This should work
   @getRandomInsideCanvas: (game) ->
-    return new coord(
+    return new Coord(
       Helpers.generateRandomNumber(game.canvasWidth),
       Helpers.generateRandomNumber(game.canvasHeight)
     )

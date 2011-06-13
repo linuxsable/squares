@@ -5,14 +5,16 @@
 		<link rel="stylesheet" href="css/main.css" type="text/css">
 	</head>
 	<body>
-		<canvas id="game"></canvas>
+	    <div id="wrapper">
+	        <img src="assets/logo.png" id="logo" />
+            <canvas id="game"></canvas>
+        </div>
 	</body>
 	<!-- Vendor -->
 	<script src="js/vendor/jquery-1.5.2.js" type="text/javascript" charset="utf-8"></script>
 	                
 	<!-- Exceptions -->
 	<script src="js/lib/Exception.js" type="text/javascript" charset="utf-8"></script>
-	<script src="js/lib/EntityException.js" type="text/javascript" charset="utf-8"></script>
 	<script src="js/lib/TypeException.js" type="text/javascript" charset="utf-8"></script>
 	                
 	<!-- States --> 
@@ -38,6 +40,7 @@
 	<script src="js/lib/KeyHandler.js" type="text/javascript" charset="utf-8"></script>
 	<script src="js/lib/Grid.js" type="text/javascript" charset="utf-8"></script>
 	<script src="js/lib/StandardRequest.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/lib/windowframefix.js" type="text/javascript" charset="utf-8"></script>
 	
 	<script type="text/javascript" charset="utf-8">
 		var squares;

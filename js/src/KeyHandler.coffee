@@ -9,12 +9,10 @@ class KeyHandler
     @SPACE = 32
   
   isDown: (keyCode) ->
-    return @pressed.keyCode
+    @pressed[keyCode]
     
   onKeydown: (event) ->
-    key = event.keyCode
-    @pressed.key = true
+    @pressed[event.keyCode] = true
     
   onKeyup: (event) ->
-    key = event.keyCode
-    delete @pressed.key
+    delete @pressed[event.keyCode]

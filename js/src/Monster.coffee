@@ -8,7 +8,7 @@ class Monster extends Entity
   render: ->
     context = @game.canvasBufferContext
     context.fillStyle = @color
-    context.shadowColor = '#ccc'
+    context.shadowColor = '#333'
     context.shadowBlur = 2
     context.shadowOffsetY = 2
     context.shadowOffsetX = 2

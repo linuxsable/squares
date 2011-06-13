@@ -3,8 +3,8 @@ class Entity
     @position = @coord
     @velocity = 2
     @destination = null
-    @mind = new StateMachine
     @id = 0
+    @mind = new StateMachine
     @keyHandler = new KeyHandler
     
   # prototype
@@ -16,35 +16,36 @@ class Entity
   update: ->
     @mind.think()
     
-  move: (direction) ->
+  # Set velocity to default to the entities
+  # velocity. Otherwise we can set our own
+  # if we want to make a movement further.
+  move: (direction, velocity = @velocity) ->
     switch direction
       when 'up'
-        @position.y -= @velocity
+        @position.y -= velocity
       when 'down'
-        @position.y += @velocity
+        @position.y += velocity
       when 'left'
-        @position.x -= @velocity
+        @position.x -= velocity
       when 'right'
-        @position.x += @velocity
-    return this
+        @position.x += velocity
+    this
   
   # for fun ;p
   teleport: ->
     @position = Coord.getRandomInsideCanvas(@game)
-    return this
+    this
     
   randomDestination: ->
     @destination = Coord.getRandomInsideCanvas(@game)
-    return this
+    this
   
-  incrementSize: (sensitivity) ->
-    sensitivity = sensitivity || 5
+  incrementSize: (@sensitivity = 5) ->
     @size.width += sensitivity
     @size.height += sensitivity
-    return this
+    this
     
-  decrementSize: (sensitivity) ->
-    sensitivity = sensitivity || 5
+  decrementSize: (@sensitivity = 5) ->
     @size.width -= sensitivity
     @size.height -= sensitivity
-    return this
+    this

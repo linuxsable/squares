@@ -16,7 +16,6 @@ class Game
       player: null,
       monsters: []
     }
-    @socket = null
     
     # Do init setups
     @initCanvas()
@@ -43,7 +42,7 @@ class Game
       @canvasBufferContext = @canvasBuffer.getContext('2d')
       return true
       
-    return false
+    false
   
   initBoard: ->
     @board = new Board(@canvasWidth, @canvasHeight)
@@ -56,39 +55,34 @@ class Game
       player.keyHandler.onKeyup(e)
   
   startGame: ->
-    loops = 0
     skipTicks = 1000 / @fps
     maxFrameSkip = 10
     nextGameTick = (new Date).getTime()
-    that = this
-    interval = null
     
-    _loopsi = ->
+    window.onEachFrame =>
       loops = 0
       while (new Date).getTime() > nextGameTick and loops < maxFrameSkip
-        that.initFrame()
+        @initFrame()
         nextGameTick += skipTicks
         loops++
-      that.drawFrame()
-    
-    window.onEachFrame(_loopsi)
-    
+      @drawFrame()
+      
   # TODO: this doesn't work now
   endGame: ->
-    return clearInterval(@intervalId)
+    clearInterval(@intervalId)
   
   # This runs right before the frame
   # gets written to the buffer
   initFrame: ->
     @updateEntities()
-    return this
+    this
   
   # This writes the buffer canvas to the real one
   drawFrame: ->
     @renderToCanvasBuffer()
     @canvasContext.clearRect(0, 0, @canvasWidth, @canvasHeight)
     @canvasContext.drawImage(@canvasBuffer, 0, 0)
-    return this
+    this
     
   # Write everything temporarily to the buffer canvas
   renderToCanvasBuffer: ->
@@ -96,25 +90,23 @@ class Game
     @canvasBufferContext.clearRect(0, 0, @canvasWidth, @canvasHeight)
     
     # Loop through all the known entites
-    # and run their individual render methods
-    for entity in @entities
-      if $.isArray(entity)  
-        for subEntity in entity
-          if false == (subEntity instanceof Entity)
-            return
+    # and run their individual render methods    
+    for key, entity of @entities
+      if $.isArray entity
+        for subKey, subEntity of entity
+          return if not (subEntity instanceof Entity)
           if 'function' == typeof subEntity.render
             subEntity.render()
       else
         return if not entity
         if 'function' == typeof entity.render
           entity.render()
-          
+    
   updateEntities: ->
-    for entity in @entities
-      if $.isArray(entity)  
-        for subEntity in entity
-          if false == (subEntity instanceof Entity)
-            return
+    for key, entity of @entities
+      if $.isArray entity
+        for subKey, subEntity of entity
+          return if not (subEntity instanceof Entity)
           if 'function' == typeof subEntity.update
             subEntity.update()
       else
@@ -133,17 +125,16 @@ class Game
       )
       
   initMonsters: ->
-    for num in [20..1]
+    for num in [50..1]
       @entities.monsters.push(new Monster(
         this,
         Coord.getRandomInsideCanvas(this),
-        new Size(20, 20),
-        '#ef4135'
+        new Size(12, 12),
+        '#888'
       ))
       
   initGrid: -> 
-    @grid = new Grid(
-      new Size(@canvasWidth, @canvasHeight)
-      '#ccc'
-    )
-    @grid.render(@canvasBufferContext)
+    # @grid = new Grid(
+    #   new Size(@canvasWidth, @canvasHeight)
+    #   '#ccc'
+    # )
