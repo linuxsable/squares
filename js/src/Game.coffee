@@ -123,9 +123,12 @@ class Game
         new Size(30, 30),
         '#008fc5'
       )
+  
+  getPlayer: ->
+    @entities.player
       
   initMonsters: ->
-    for num in [50..1]
+    for num in [100..1]
       @entities.monsters.push(new Monster(
         this,
         Coord.getRandomInsideCanvas(this),

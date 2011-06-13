@@ -141,10 +141,13 @@ Game = (function() {
       return this.entities.player = new Player(this, new Coord(this.canvasWidth / 2, this.canvasHeight / 2), new Size(30, 30), '#008fc5');
     }
   };
+  Game.prototype.getPlayer = function() {
+    return this.entities.player;
+  };
   Game.prototype.initMonsters = function() {
     var num, _results;
     _results = [];
-    for (num = 50; num >= 1; num--) {
+    for (num = 100; num >= 1; num--) {
       _results.push(this.entities.monsters.push(new Monster(this, Coord.getRandomInsideCanvas(this), new Size(12, 12), '#888')));
     }
     return _results;

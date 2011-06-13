@@ -11,7 +11,7 @@ Monster = (function() {
   function Monster(game, coord, size, color) {
     Monster.__super__.constructor.call(this, game, coord, size, color);
     this.mind.addState(new StateMonsterExploring(this));
-    this.mind.addState(new StateMonsterStalled(this));
+    this.mind.addState(new StateMonsterFleeing(this));
     this.mind.setState('exploring');
   }
   __extends(Monster, Entity);

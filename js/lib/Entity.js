@@ -45,13 +45,17 @@ Entity = (function() {
     return this;
   };
   Entity.prototype.incrementSize = function(sensitivity) {
-    this.sensitivity = sensitivity != null ? sensitivity : 5;
+    if (sensitivity == null) {
+      sensitivity = 5;
+    }
     this.size.width += sensitivity;
     this.size.height += sensitivity;
     return this;
   };
   Entity.prototype.decrementSize = function(sensitivity) {
-    this.sensitivity = sensitivity != null ? sensitivity : 5;
+    if (sensitivity == null) {
+      sensitivity = 5;
+    }
     this.size.width -= sensitivity;
     this.size.height -= sensitivity;
     return this;

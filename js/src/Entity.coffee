@@ -40,12 +40,12 @@ class Entity
     @destination = Coord.getRandomInsideCanvas(@game)
     this
   
-  incrementSize: (@sensitivity = 5) ->
+  incrementSize: (sensitivity = 5) ->
     @size.width += sensitivity
     @size.height += sensitivity
     this
     
-  decrementSize: (@sensitivity = 5) ->
+  decrementSize: (sensitivity = 5) ->
     @size.width -= sensitivity
     @size.height -= sensitivity
     this

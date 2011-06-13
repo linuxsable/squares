@@ -1,4 +1,4 @@
-var StateMonsterExploring;
+var StateMonsterFleeing;
 var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
   for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
   function ctor() { this.constructor = child; }
@@ -7,14 +7,13 @@ var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, par
   child.__super__ = parent.prototype;
   return child;
 };
-StateMonsterExploring = (function() {
-  function StateMonsterExploring(monster) {
+StateMonsterFleeing = (function() {
+  function StateMonsterFleeing(monster) {
     this.monster = monster;
-    this.monster.velocity = 0.2;
-    StateMonsterExploring.__super__.constructor.call(this, 'exploring');
+    StateMonsterFleeing.__super__.constructor.call(this, 'exploring');
   }
-  __extends(StateMonsterExploring, State);
-  StateMonsterExploring.prototype.doActions = function() {
+  __extends(StateMonsterFleeing, State);
+  StateMonsterFleeing.prototype.doActions = function() {
     var colors, direction, movements, randomNumber;
     movements = ['up', 'down', 'right', 'left'];
     colors = ['pink', 'green', 'red', '#333', 'orange'];
@@ -22,7 +21,17 @@ StateMonsterExploring = (function() {
     direction = movements[randomNumber % 4];
     return this.monster.move(direction);
   };
-  StateMonsterExploring.prototype.checkConditions = function() {};
-  StateMonsterExploring.prototype.entryActions = function() {};
-  return StateMonsterExploring;
+  StateMonsterFleeing.prototype.checkConditions = function() {
+    var n, player;
+    player = this.monster.game.getPlayer();
+    n = 50;
+    if ((player.position.x <= (this.monster.position.x + n) && player.position.x >= (this.monster.position.x - n)) && (player.position.y <= (this.monster.position.y + n) && player.position.y >= (this.monster.position.y - n))) {
+      return 'fleeing';
+    }
+  };
+  StateMonsterFleeing.prototype.entryActions = function() {
+    this.monster.velocity = 0.3;
+    return this.monster.color = '#333';
+  };
+  return StateMonsterFleeing;
 })();

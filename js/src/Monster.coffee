@@ -2,7 +2,7 @@ class Monster extends Entity
   constructor: (game, coord, size, color) ->
     super(game, coord, size, color)
     @mind.addState(new StateMonsterExploring(this))
-    @mind.addState(new StateMonsterStalled(this))
+    @mind.addState(new StateMonsterFleeing(this))
     @mind.setState('exploring')
     
   render: ->
