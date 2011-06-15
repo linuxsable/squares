@@ -3,24 +3,27 @@
 # allow the player to touch the monster because he flees away
 class StateMonsterFleeing extends State
   constructor: (@monster) ->
-    @monster.velocity = 1
     super('fleeing')
     @num = 0
     
   doActions: ->
-
-  checkConditions: ->
-    # Check to see if we're far enough away
-    # then exit out back to exploring
-    'exploring'
-    
-  entryActions: ->
     movements = ['up', 'down', 'right', 'left']
-    colors = ['red', '#fff']
     
     randomNumber = Helpers.generateRandomNumber(100)
     thing = randomNumber % 4
     direction = movements[thing]
-        
-    @monster.move(direction, 3)
+    
+    @monster.move(direction)
+
+  checkConditions: ->
+    # Check to see if we're far enough away
+    # then exit out back to exploring
+    player = @monster.game.getPlayer()
+    n = 50
+    
+    if (player.position.x >= (@monster.position.x + n) or player.position.x <= (@monster.position.x - n)) or (player.position.y >= (@monster.position.y + n) or player.position.y <= (@monster.position.y - n))
+      return 'exploring'
+    
+  entryActions: ->
+    @monster.velocity = 2
     @monster.color = 'red'

@@ -47,6 +47,8 @@ class Game
   initBoard: ->
     @board = new Board(@canvasWidth, @canvasHeight)
     
+  # TODO: This should be moved to the individual entity
+  # that it corresponds to.
   initControlEvents: ->
     player = @entities.player
     $(document).bind 'keydown', (e) =>
@@ -123,12 +125,13 @@ class Game
         new Size(30, 30),
         '#008fc5'
       )
+      @entities.player.velocity = 2.5
   
   getPlayer: ->
     @entities.player
       
   initMonsters: ->
-    for num in [100..1]
+    for num in [150..1]
       @entities.monsters.push(new Monster(
         this,
         Coord.getRandomInsideCanvas(this),

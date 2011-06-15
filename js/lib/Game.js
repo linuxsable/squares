@@ -138,7 +138,8 @@ Game = (function() {
   };
   Game.prototype.initPlayer = function() {
     if (false === (this.entities.player instanceof Player)) {
-      return this.entities.player = new Player(this, new Coord(this.canvasWidth / 2, this.canvasHeight / 2), new Size(30, 30), '#008fc5');
+      this.entities.player = new Player(this, new Coord(this.canvasWidth / 2, this.canvasHeight / 2), new Size(30, 30), '#008fc5');
+      return this.entities.player.velocity = 2.5;
     }
   };
   Game.prototype.getPlayer = function() {
@@ -147,7 +148,7 @@ Game = (function() {
   Game.prototype.initMonsters = function() {
     var num, _results;
     _results = [];
-    for (num = 100; num >= 1; num--) {
+    for (num = 150; num >= 1; num--) {
       _results.push(this.entities.monsters.push(new Monster(this, Coord.getRandomInsideCanvas(this), new Size(12, 12), '#888')));
     }
     return _results;
