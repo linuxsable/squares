@@ -25,5 +25,5 @@ class StateMonsterFleeing extends State
       return 'exploring'
     
   entryActions: ->
-    @monster.velocity = 2
+    @monster.velocity = 2.5
     @monster.color = 'red'

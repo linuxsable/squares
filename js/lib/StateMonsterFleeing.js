@@ -31,7 +31,7 @@ StateMonsterFleeing = (function() {
     }
   };
   StateMonsterFleeing.prototype.entryActions = function() {
-    this.monster.velocity = 2;
+    this.monster.velocity = 2.5;
     return this.monster.color = 'red';
   };
   return StateMonsterFleeing;
