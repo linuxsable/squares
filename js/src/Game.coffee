@@ -9,8 +9,7 @@ class Game
     
     @intervalId = null
     @fps = 60
-    @grid = null
-    @board = null
+    @world = null
     
     @entities = {
       player: null,
@@ -19,7 +18,7 @@ class Game
     
     # Do init setups
     @initCanvas()
-    @initBoard()
+    @initWorld()
     @initPlayer()
     @initMonsters()
     @initControlEvents()
@@ -43,9 +42,6 @@ class Game
       return true
       
     false
-  
-  initBoard: ->
-    @board = new Board(@canvasWidth, @canvasHeight)
     
   # TODO: This should be moved to the individual entity
   # that it corresponds to.
@@ -139,8 +135,5 @@ class Game
         '#888'
       ))
       
-  initGrid: -> 
-    # @grid = new Grid(
-    #   new Size(@canvasWidth, @canvasHeight)
-    #   '#ccc'
-    # )
+  initWorld: ->
+    @world = new World 1000, 1000
