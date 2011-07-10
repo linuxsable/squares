@@ -7,8 +7,7 @@ class StateMachine
     @states[state.name] = state
     
   setState: (state) ->
-    if @activeState?
-      @activeState.exitActions()
+    @activeState.exitActions() if @activeState?
     @activeState = @states[state]
     @activeState.entryActions()
     
@@ -16,4 +15,4 @@ class StateMachine
     return if not @activeState?
     @activeState.doActions()
     stateName = @activeState.checkConditions()
-    @setState(stateName) if stateName
+    @setState stateName if stateName

@@ -1,7 +1,9 @@
+== Overview
+
 A game. With squares. Endless possibility.
 
-Development
---
+== Development
+
 Requires Coffeescript (https://github.com/jashkenas/coffee-script).
 
 To compile all coffeescript files into js/lib:

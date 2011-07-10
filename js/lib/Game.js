@@ -8,16 +8,14 @@ Game = (function() {
     this.canvasContext = null;
     this.canvasBuffer = null;
     this.canvasBufferContext = null;
-    this.intervalId = null;
     this.fps = 60;
-    this.grid = null;
-    this.board = null;
     this.entities = {
+      world: null,
       player: null,
       monsters: []
     };
     this.initCanvas();
-    this.initBoard();
+    this.initWorld();
     this.initPlayer();
     this.initMonsters();
     this.initControlEvents();
@@ -38,9 +36,6 @@ Game = (function() {
       return true;
     }
     return false;
-  };
-  Game.prototype.initBoard = function() {
-    return this.board = new Board(this.canvasWidth, this.canvasHeight);
   };
   Game.prototype.initControlEvents = function() {
     var player;
@@ -82,8 +77,11 @@ Game = (function() {
     return this;
   };
   Game.prototype.renderToCanvasBuffer = function() {
-    var entity, key, subEntity, subKey, _ref, _results;
     this.canvasBufferContext.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
+    return this.renderEntities();
+  };
+  Game.prototype.renderEntities = function() {
+    var entity, key, subEntity, subKey, _ref, _results;
     _ref = this.entities;
     _results = [];
     for (key in _ref) {
@@ -146,13 +144,19 @@ Game = (function() {
     return this.entities.player;
   };
   Game.prototype.initMonsters = function() {
-    var num, _results;
+    var color, coord, monster, num, size, _results;
     _results = [];
-    for (num = 150; num >= 1; num--) {
-      _results.push(this.entities.monsters.push(new Monster(this, Coord.getRandomInsideCanvas(this), new Size(12, 12), '#888')));
+    for (num = 250; num >= 1; num--) {
+      coord = Coord.getRandomInsideCanvas(this);
+      size = new Size(12, 12);
+      color = '#888';
+      monster = new Monster(this, coord, size, color);
+      _results.push(this.entities.monsters.push(monster));
     }
     return _results;
   };
-  Game.prototype.initGrid = function() {};
+  Game.prototype.initWorld = function() {
+    return this.entities.world = new World(this, 1000, 1000);
+  };
   return Game;
 })();

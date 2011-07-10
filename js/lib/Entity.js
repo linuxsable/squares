@@ -2,10 +2,9 @@ var Entity;
 Entity = (function() {
   function Entity(game, coord, size, color) {
     this.game = game;
-    this.coord = coord;
     this.size = size;
     this.color = color;
-    this.position = this.coord;
+    this.position = coord;
     this.velocity = 2;
     this.destination = null;
     this.id = 0;

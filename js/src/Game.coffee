@@ -6,12 +6,10 @@ class Game
     @canvasContext = null
     @canvasBuffer = null
     @canvasBufferContext = null
-    
-    @intervalId = null
     @fps = 60
-    @world = null
     
     @entities = {
+      world: null,
       player: null,
       monsters: []
     }
@@ -86,9 +84,11 @@ class Game
   renderToCanvasBuffer: ->
     # Start the buffer fresh
     @canvasBufferContext.clearRect(0, 0, @canvasWidth, @canvasHeight)
+    @renderEntities()
     
-    # Loop through all the known entites
-    # and run their individual render methods    
+  # We now only want to render those entities
+  # which are inside the current canvas.
+  renderEntities: ->
     for key, entity of @entities
       if $.isArray entity
         for subKey, subEntity of entity
@@ -99,7 +99,7 @@ class Game
         return if not entity
         if 'function' == typeof entity.render
           entity.render()
-    
+  
   updateEntities: ->
     for key, entity of @entities
       if $.isArray entity
@@ -127,13 +127,12 @@ class Game
     @entities.player
       
   initMonsters: ->
-    for num in [150..1]
-      @entities.monsters.push(new Monster(
-        this,
-        Coord.getRandomInsideCanvas(this),
-        new Size(12, 12),
-        '#888'
-      ))
+    for num in [250..1]
+      coord = Coord.getRandomInsideCanvas this
+      size = new Size 12, 12
+      color = '#888'
+      monster = new Monster this, coord, size, color
+      @entities.monsters.push monster
       
   initWorld: ->
-    @world = new World 1000, 1000
+    @entities.world = new World this, 1000, 1000

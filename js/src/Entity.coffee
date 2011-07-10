@@ -1,6 +1,6 @@
 class Entity
-  constructor: (@game, @coord, @size, @color) ->
-    @position = @coord
+  constructor: (@game, coord, @size, @color) ->
+    @position = coord
     @velocity = 2
     @destination = null
     @id = 0
