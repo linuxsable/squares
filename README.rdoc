@@ -1,6 +1,6 @@
 == Overview
 
-A game. With squares. Endless possibility.
+A game, with squares.. endless possibility.
 
 == Development
 
