@@ -1,11 +1,17 @@
 var Viewport;
 Viewport = (function() {
-  function Viewport(position) {
-    this.position = position;
+  function Viewport(game, coord) {
+    this.game = game;
+    if (!(coord != null)) {
+      this.coord = new Coord(0, 0);
+    } else {
+      this.coord = coord;
+    }
+    this.size = new Size(this.game.canvasWidth, this.game.canvasHeight);
   }
   Viewport.prototype.move = function(direction, velocity) {
     if (velocity == null) {
-      velocity = this.velocity;
+      velocity = 1;
     }
     switch (direction) {
       case 'up':

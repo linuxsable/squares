@@ -2,11 +2,13 @@ var KeyHandler;
 KeyHandler = (function() {
   function KeyHandler() {
     this.pressed = {};
-    this.UP = 87;
-    this.DOWN = 83;
-    this.RIGHT = 68;
-    this.LEFT = 65;
-    this.SPACE = 32;
+    this.KEYS = {
+      W: 87,
+      S: 83,
+      A: 65,
+      D: 68,
+      SPACE: 32
+    };
   }
   KeyHandler.prototype.isDown = function(keyCode) {
     return this.pressed[keyCode];

@@ -8,13 +8,13 @@ var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, par
   return child;
 };
 Monster = (function() {
+  __extends(Monster, Entity);
   function Monster(game, coord, size, color) {
     Monster.__super__.constructor.call(this, game, coord, size, color);
     this.mind.addState(new StateMonsterExploring(this));
     this.mind.addState(new StateMonsterFleeing(this));
     this.mind.setState('exploring');
   }
-  __extends(Monster, Entity);
   Monster.prototype.render = function() {
     var context;
     context = this.game.canvasBufferContext;

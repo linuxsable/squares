@@ -8,12 +8,13 @@ var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, par
   return child;
 };
 Player = (function() {
+  __extends(Player, Entity);
   function Player() {
     Player.__super__.constructor.apply(this, arguments);
   }
-  __extends(Player, Entity);
   Player.prototype.render = function() {
     var context;
+    Player.__super__.render.call(this);
     context = this.game.canvasBufferContext;
     context.fillStyle = this.color;
     context.shadowColor = '#333';
@@ -25,16 +26,16 @@ Player = (function() {
   Player.prototype.update = function() {
     var k;
     k = this.keyHandler;
-    if (k.isDown(k.UP)) {
+    if (k.isDown(k.KEYS.W)) {
       this.move('up');
     }
-    if (k.isDown(k.DOWN)) {
+    if (k.isDown(k.KEYS.S)) {
       this.move('down');
     }
-    if (k.isDown(k.LEFT)) {
+    if (k.isDown(k.KEYS.A)) {
       this.move('left');
     }
-    if (k.isDown(k.RIGHT)) {
+    if (k.isDown(k.KEYS.D)) {
       return this.move('right');
     }
   };

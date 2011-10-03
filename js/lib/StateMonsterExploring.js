@@ -8,11 +8,11 @@ var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, par
   return child;
 };
 StateMonsterExploring = (function() {
+  __extends(StateMonsterExploring, State);
   function StateMonsterExploring(monster) {
     this.monster = monster;
     StateMonsterExploring.__super__.constructor.call(this, 'exploring');
   }
-  __extends(StateMonsterExploring, State);
   StateMonsterExploring.prototype.doActions = function() {
     var colors, direction, movements, randomNumber;
     movements = ['up', 'down', 'right', 'left'];

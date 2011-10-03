@@ -4,8 +4,5 @@ Coord = (function() {
     this.x = x;
     this.y = y;
   }
-  Coord.getRandomInsideCanvas = function(game) {
-    return new Coord(Helpers.generateRandomNumber(game.canvasWidth), Helpers.generateRandomNumber(game.canvasHeight));
-  };
   return Coord;
 })();

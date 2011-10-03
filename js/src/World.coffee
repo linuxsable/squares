@@ -1,16 +1,15 @@
 class World
-  constructor: (@game, @width=2000, @height=2000) ->
-    @mind = new StateMachine
-    @entities = {}
-  
-  getWidth: ->
-    @width
-  
-  getHeight: ->
-    @height
+  constructor: (@game, size) ->
+    if !size?
+      @size = new Size 10000, 10000
+    else
+      @size = size
     
-  update: ->
-    @mind.think()
+  getRandomCoordInside: ->
+    x = Helpers.generateRandomNumber(@size.width)
+    y = Helpers.generateRandomNumber(@size.height)
     
-  render: ->
-     
+    new Coord x, y
+  
+  _toStr: ->
+    'W: ' + @size.width + ' - H: ' + @size.height

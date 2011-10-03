@@ -8,8 +8,8 @@ var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, par
   return child;
 };
 StateMonsterStalled = (function() {
-  StateMonsterStalled.monster = null;
   __extends(StateMonsterStalled, State);
+  StateMonsterStalled.monster = null;
   StateMonsterStalled.rendered = false;
   function StateMonsterStalled(monster) {
     this.monster = monster;

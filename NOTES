@@ -1,0 +1,7 @@
+VIEWPORT
+--
+A viewport has a size and a position. A viewport must exist within specific bounds like a "world". It needs to be able to have it's position updated. When entities are within the area of the viewport they will be rendered, otherwise they are always updated to run their logic.
+
+Entities have points on the world. The world is what sets the width and height of the game which the viewport is able to move around upon.
+
+WORLD -> VIEWPORT -> ENTITIES

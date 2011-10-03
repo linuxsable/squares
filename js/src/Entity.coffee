@@ -12,7 +12,14 @@ class Entity
     
   # prototype
   render: ->
-    
+    # Check if inside viewport
+  
+  initControlEvents: ->
+    $(document).bind 'keydown', (e) =>
+      @keyHandler.onKeydown(e)
+    $(document).bind 'keyup', (e) =>
+      @keyHandler.onKeyup(e)
+  
   update: ->
     @mind.think()
     

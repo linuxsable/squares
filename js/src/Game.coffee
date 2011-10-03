@@ -9,14 +9,17 @@ class Game
     @fps = 60
     
     @entities = {
-      world: null,
       player: null,
       monsters: []
     }
     
+    @world = null
+    @viewport = null
+    
     # Do init setups
     @initCanvas()
     @initWorld()
+    @initViewport()
     @initPlayer()
     @initMonsters()
     @initControlEvents()
@@ -41,14 +44,8 @@ class Game
       
     false
     
-  # TODO: This should be moved to the individual entity
-  # that it corresponds to.
   initControlEvents: ->
-    player = @entities.player
-    $(document).bind 'keydown', (e) =>
-      player.keyHandler.onKeydown(e)
-    $(document).bind 'keyup', (e) =>
-      player.keyHandler.onKeyup(e)
+    @entities.player.initControlEvents()
   
   startGame: ->
     skipTicks = 1000 / @fps
@@ -128,11 +125,14 @@ class Game
       
   initMonsters: ->
     for num in [250..1]
-      coord = Coord.getRandomInsideCanvas this
+      coord = @world.getRandomCoordInside()
       size = new Size 12, 12
       color = '#888'
       monster = new Monster this, coord, size, color
       @entities.monsters.push monster
       
   initWorld: ->
-    @entities.world = new World this, 1000, 1000
+    @world = new World this
+  
+  initViewport: ->
+    @viewport = new Viewport this

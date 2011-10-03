@@ -1,4 +1,5 @@
 var Entity;
+var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 Entity = (function() {
   function Entity(game, coord, size, color) {
     this.game = game;
@@ -13,6 +14,14 @@ Entity = (function() {
   }
   Entity.prototype.destroy = function() {};
   Entity.prototype.render = function() {};
+  Entity.prototype.initControlEvents = function() {
+    $(document).bind('keydown', __bind(function(e) {
+      return this.keyHandler.onKeydown(e);
+    }, this));
+    return $(document).bind('keyup', __bind(function(e) {
+      return this.keyHandler.onKeyup(e);
+    }, this));
+  };
   Entity.prototype.update = function() {
     return this.mind.think();
   };

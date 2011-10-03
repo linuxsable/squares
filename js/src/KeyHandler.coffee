@@ -2,11 +2,15 @@
 class KeyHandler
   constructor: ->
     @pressed = {}
-    @UP = 87
-    @DOWN = 83
-    @RIGHT = 68
-    @LEFT = 65
-    @SPACE = 32
+    
+    # Numerical map of keyboard keys
+    @KEYS = {
+      W: 87,
+      S: 83,
+      A: 65,
+      D: 68,
+      SPACE: 32
+    }
   
   isDown: (keyCode) ->
     @pressed[keyCode]

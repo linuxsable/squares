@@ -10,12 +10,14 @@ Game = (function() {
     this.canvasBufferContext = null;
     this.fps = 60;
     this.entities = {
-      world: null,
       player: null,
       monsters: []
     };
+    this.world = null;
+    this.viewport = null;
     this.initCanvas();
     this.initWorld();
+    this.initViewport();
     this.initPlayer();
     this.initMonsters();
     this.initControlEvents();
@@ -38,14 +40,7 @@ Game = (function() {
     return false;
   };
   Game.prototype.initControlEvents = function() {
-    var player;
-    player = this.entities.player;
-    $(document).bind('keydown', __bind(function(e) {
-      return player.keyHandler.onKeydown(e);
-    }, this));
-    return $(document).bind('keyup', __bind(function(e) {
-      return player.keyHandler.onKeyup(e);
-    }, this));
+    return this.entities.player.initControlEvents();
   };
   Game.prototype.startGame = function() {
     var maxFrameSkip, nextGameTick, skipTicks;
@@ -147,7 +142,7 @@ Game = (function() {
     var color, coord, monster, num, size, _results;
     _results = [];
     for (num = 250; num >= 1; num--) {
-      coord = Coord.getRandomInsideCanvas(this);
+      coord = this.world.getRandomCoordInside();
       size = new Size(12, 12);
       color = '#888';
       monster = new Monster(this, coord, size, color);
@@ -156,7 +151,10 @@ Game = (function() {
     return _results;
   };
   Game.prototype.initWorld = function() {
-    return this.entities.world = new World(this, 1000, 1000);
+    return this.world = new World(this);
+  };
+  Game.prototype.initViewport = function() {
+    return this.viewport = new Viewport(this);
   };
   return Game;
 })();

@@ -1,21 +1,21 @@
 var World;
 World = (function() {
-  function World(game, width, height) {
+  function World(game, size) {
     this.game = game;
-    this.width = width != null ? width : 2000;
-    this.height = height != null ? height : 2000;
-    this.mind = new StateMachine;
-    this.entities = {};
+    if (!(size != null)) {
+      this.size = new Size(10000, 10000);
+    } else {
+      this.size = size;
+    }
   }
-  World.prototype.getWidth = function() {
-    return this.width;
+  World.prototype.getRandomCoordInside = function() {
+    var x, y;
+    x = Helpers.generateRandomNumber(this.size.width);
+    y = Helpers.generateRandomNumber(this.size.height);
+    return new Coord(x, y);
   };
-  World.prototype.getHeight = function() {
-    return this.height;
+  World.prototype._toStr = function() {
+    return 'W: ' + this.size.width + ' - H: ' + this.size.height;
   };
-  World.prototype.update = function() {
-    return this.mind.think();
-  };
-  World.prototype.render = function() {};
   return World;
 })();
