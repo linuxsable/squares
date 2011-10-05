@@ -3,8 +3,8 @@ var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments)
 Game = (function() {
   function Game() {
     this.canvas = null;
-    this.canvasWidth = 1024;
-    this.canvasHeight = 600;
+    this.canvasWidth = 50;
+    this.canvasHeight = 50;
     this.canvasContext = null;
     this.canvasBuffer = null;
     this.canvasBufferContext = null;

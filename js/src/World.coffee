@@ -1,7 +1,7 @@
 class World
   constructor: (@game, size) ->
     if !size?
-      @size = new Size 10000, 10000
+      @size = new Size 5000, 5000
     else
       @size = size
     

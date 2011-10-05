@@ -3,7 +3,7 @@ World = (function() {
   function World(game, size) {
     this.game = game;
     if (!(size != null)) {
-      this.size = new Size(10000, 10000);
+      this.size = new Size(5000, 5000);
     } else {
       this.size = size;
     }

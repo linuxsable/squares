@@ -5,3 +5,5 @@ A viewport has a size and a position. A viewport must exist within specific boun
 Entities have points on the world. The world is what sets the width and height of the game which the viewport is able to move around upon.
 
 WORLD -> VIEWPORT -> ENTITIES
+
+TODO: Get the viewport only rendering those entities which are in view. Be able to move the viewport around on the world.
