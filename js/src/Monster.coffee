@@ -18,8 +18,8 @@ class Monster extends Entity
     context.shadowOffsetY = 2
     context.shadowOffsetX = 2
     context.fillRect(
-      @position.x,
-      @position.y,
+      @position.x - @game.viewport.position.x,
+      @position.y - @game.viewport.position.y,
       @size.width,
       @size.height
     )

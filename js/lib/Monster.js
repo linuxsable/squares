@@ -27,7 +27,7 @@ Monster = (function() {
     context.shadowBlur = 4;
     context.shadowOffsetY = 2;
     context.shadowOffsetX = 2;
-    return context.fillRect(this.position.x, this.position.y, this.size.width, this.size.height);
+    return context.fillRect(this.position.x - this.game.viewport.position.x, this.position.y - this.game.viewport.position.y, this.size.width, this.size.height);
   };
   Monster.prototype.isViewable = function() {
     if (this.position.x > this.game.viewport.position.x && this.position.y > this.game.viewport.position.y && this.position.x < this.game.viewport.position.x + this.game.viewport.size.width && this.position.y < this.game.viewport.position.y + this.game.viewport.size.height) {
