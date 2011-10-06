@@ -7,6 +7,10 @@ KeyHandler = (function() {
       S: 83,
       A: 65,
       D: 68,
+      UP: 38,
+      DOWN: 40,
+      RIGHT: 39,
+      LEFT: 37,
       SPACE: 32
     };
   }

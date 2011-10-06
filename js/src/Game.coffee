@@ -1,8 +1,8 @@
 class Game
   constructor: ->
     @canvas = null
-    @canvasWidth = 50
-    @canvasHeight = 50
+    @canvasWidth = 1024
+    @canvasHeight = 400
     @canvasContext = null
     @canvasBuffer = null
     @canvasBufferContext = null

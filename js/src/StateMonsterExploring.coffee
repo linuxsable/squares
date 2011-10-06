@@ -21,5 +21,5 @@ class StateMonsterExploring extends State
       return 'fleeing'
       
   entryActions: ->
-    @monster.velocity = 0.3
+    @monster.velocity = 1
     @monster.color = '#333'

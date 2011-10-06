@@ -30,7 +30,7 @@ StateMonsterExploring = (function() {
     }
   };
   StateMonsterExploring.prototype.entryActions = function() {
-    this.monster.velocity = 0.3;
+    this.monster.velocity = 1;
     return this.monster.color = '#333';
   };
   return StateMonsterExploring;
