@@ -2,7 +2,7 @@ class Player extends Entity
   render: ->
     super()
     
-    if !isViewable() return
+    return if !@isViewable()
     
     context = @game.canvasBufferContext
     context.fillStyle = @color

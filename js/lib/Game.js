@@ -59,9 +59,7 @@ Game = (function() {
       return this.drawFrame();
     }, this));
   };
-  Game.prototype.endGame = function() {
-    return clearInterval(this.intervalId);
-  };
+  Game.prototype.endGame = function() {};
   Game.prototype.initFrame = function() {
     this.updateEntities();
     this.viewport.update();
@@ -143,7 +141,7 @@ Game = (function() {
   Game.prototype.initMonsters = function() {
     var color, coord, monster, num, size, _results;
     _results = [];
-    for (num = 250; num >= 1; num--) {
+    for (num = 10000; num >= 1; num--) {
       coord = this.world.getRandomCoordInside();
       size = new Size(12, 12);
       color = '#888';

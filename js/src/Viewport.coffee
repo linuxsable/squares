@@ -12,8 +12,10 @@ class Viewport
     else
       @position = position
     
-  move: (direction, velocity=3) ->
+  move: (direction, velocity=4) ->
+    # This clones the position coord for later
     oldPosition = $.extend true, {}, @position
+    
     switch direction
       when 'up'
         @position.y -= velocity
@@ -29,7 +31,7 @@ class Viewport
     if @position.x > (@game.world.size.width - @size.width) || @position.x < 0 || @position.y > (@game.world.size.height - @size.height) || @position.y < 0
       @position = oldPosition
         
-    console.log 'X: ' + @position.x + ' Y: ' + @position.y
+    # console.log 'X: ' + @position.x + ' Y: ' + @position.y
     this
 
   # This is used to move the viewport around
@@ -39,7 +41,19 @@ class Viewport
     @move('down') if k.isDown(k.KEYS.DOWN)
     @move('left') if k.isDown(k.KEYS.LEFT)
     @move('right') if k.isDown(k.KEYS.RIGHT)
+    
+    @centerOverPlayer() if k.isDown(k.KEYS.SPACE)
   
+  centerOverPlayer: ->
+    temp = $.extend true, {}, @game.getPlayer().position
+    temp.x -= @size.width / 2
+    temp.y -= @size.height / 2
+    
+    if temp.x > (@game.world.size.width - @size.width) || temp.x < 0 || temp.y > (@game.world.size.height - @size.height) || temp.y < 0
+      return
+    else
+      @position = temp
+
   initControlEvents: ->
     $(document).bind 'keydown', (e) =>
       @keyHandler.onKeydown(e)

@@ -63,7 +63,6 @@ class Game
       
   # TODO: this doesn't work now
   endGame: ->
-    clearInterval(@intervalId)
   
   # This runs right before the frame
   # gets written to the buffer
@@ -126,7 +125,7 @@ class Game
     @entities.player
       
   initMonsters: ->
-    for num in [250..1]
+    for num in [10000..1]
       coord = @world.getRandomCoordInside()
       size = new Size 12, 12
       color = '#888'

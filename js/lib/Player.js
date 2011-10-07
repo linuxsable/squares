@@ -15,13 +15,16 @@ Player = (function() {
   Player.prototype.render = function() {
     var context;
     Player.__super__.render.call(this);
+    if (!this.isViewable()) {
+      return;
+    }
     context = this.game.canvasBufferContext;
     context.fillStyle = this.color;
     context.shadowColor = '#333';
     context.shadowBlur = 2;
     context.shadowOffsetY = 2;
     context.shadowOffsetX = 2;
-    return context.fillRect(this.position.x, this.position.y, this.size.width, this.size.height);
+    return context.fillRect(this.position.x - this.game.viewport.position.x, this.position.y - this.game.viewport.position.y, this.size.width, this.size.height);
   };
   Player.prototype.update = function() {
     var k;
@@ -38,6 +41,12 @@ Player = (function() {
     if (k.isDown(k.KEYS.D)) {
       return this.move('right');
     }
+  };
+  Player.prototype.isViewable = function() {
+    if (this.position.x > this.game.viewport.position.x && this.position.y > this.game.viewport.position.y && this.position.x < this.game.viewport.position.x + this.game.viewport.size.width && this.position.y < this.game.viewport.position.y + this.game.viewport.size.height) {
+      return true;
+    }
+    return false;
   };
   return Player;
 })();

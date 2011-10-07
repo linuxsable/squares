@@ -14,7 +14,7 @@ Viewport = (function() {
   Viewport.prototype.move = function(direction, velocity) {
     var oldPosition;
     if (velocity == null) {
-      velocity = 3;
+      velocity = 4;
     }
     oldPosition = $.extend(true, {}, this.position);
     switch (direction) {
@@ -33,7 +33,6 @@ Viewport = (function() {
     if (this.position.x > (this.game.world.size.width - this.size.width) || this.position.x < 0 || this.position.y > (this.game.world.size.height - this.size.height) || this.position.y < 0) {
       this.position = oldPosition;
     }
-    console.log('X: ' + this.position.x + ' Y: ' + this.position.y);
     return this;
   };
   Viewport.prototype.update = function() {
@@ -49,7 +48,19 @@ Viewport = (function() {
       this.move('left');
     }
     if (k.isDown(k.KEYS.RIGHT)) {
-      return this.move('right');
+      this.move('right');
+    }
+    if (k.isDown(k.KEYS.SPACE)) {
+      return this.centerOverPlayer();
+    }
+  };
+  Viewport.prototype.centerOverPlayer = function() {
+    var temp;
+    temp = $.extend(true, {}, this.game.getPlayer().position);
+    temp.x -= this.size.width / 2;
+    temp.y -= this.size.height / 2;
+    if (temp.x > (this.game.world.size.width - this.size.width) || temp.x < 0 || temp.y > (this.game.world.size.height - this.size.height) || temp.y < 0) {} else {
+      return this.position = temp;
     }
   };
   Viewport.prototype.initControlEvents = function() {
