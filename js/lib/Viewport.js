@@ -30,7 +30,7 @@ Viewport = (function() {
       case 'right':
         this.position.x += velocity;
     }
-    if (this.position.x > this.game.world.size.width || this.position.x < 0 || this.position.y > this.game.world.size.height || this.position.y < 0) {
+    if (this.position.x > (this.game.world.size.width - this.size.width) || this.position.x < 0 || this.position.y > (this.game.world.size.height - this.size.height) || this.position.y < 0) {
       this.position = oldPosition;
     }
     console.log('X: ' + this.position.x + ' Y: ' + this.position.y);

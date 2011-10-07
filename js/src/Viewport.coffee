@@ -26,7 +26,7 @@ class Viewport
         
     # Reset the position if they're "out of world bounds"
     # We don't want the viewport to go wandering
-    if @position.x > @game.world.size.width || @position.x < 0 || @position.y > @game.world.size.height || @position.y < 0
+    if @position.x > (@game.world.size.width - @size.width) || @position.x < 0 || @position.y > (@game.world.size.height - @size.height) || @position.y < 0
       @position = oldPosition
         
     console.log 'X: ' + @position.x + ' Y: ' + @position.y
