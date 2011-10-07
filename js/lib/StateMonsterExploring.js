@@ -21,14 +21,7 @@ StateMonsterExploring = (function() {
     direction = movements[randomNumber % 4];
     return this.monster.move(direction);
   };
-  StateMonsterExploring.prototype.checkConditions = function() {
-    var n, player;
-    player = this.monster.game.getPlayer();
-    n = 50;
-    if ((player.position.x <= (this.monster.position.x + n) && player.position.x >= (this.monster.position.x - n)) && (player.position.y <= (this.monster.position.y + n) && player.position.y >= (this.monster.position.y - n))) {
-      return 'fleeing';
-    }
-  };
+  StateMonsterExploring.prototype.checkConditions = function() {};
   StateMonsterExploring.prototype.entryActions = function() {
     this.monster.velocity = 1;
     return this.monster.color = '#333';

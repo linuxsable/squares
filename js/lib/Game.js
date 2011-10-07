@@ -4,7 +4,7 @@ Game = (function() {
   function Game() {
     this.canvas = null;
     this.canvasWidth = 1024;
-    this.canvasHeight = 400;
+    this.canvasHeight = 600;
     this.canvasContext = null;
     this.canvasBuffer = null;
     this.canvasBufferContext = null;
@@ -40,7 +40,8 @@ Game = (function() {
     return false;
   };
   Game.prototype.initControlEvents = function() {
-    return this.entities.player.initControlEvents();
+    this.entities.player.initControlEvents();
+    return this.viewport.initControlEvents();
   };
   Game.prototype.startGame = function() {
     var maxFrameSkip, nextGameTick, skipTicks;
@@ -63,6 +64,7 @@ Game = (function() {
   };
   Game.prototype.initFrame = function() {
     this.updateEntities();
+    this.viewport.update();
     return this;
   };
   Game.prototype.drawFrame = function() {

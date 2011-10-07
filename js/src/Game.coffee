@@ -2,7 +2,7 @@ class Game
   constructor: ->
     @canvas = null
     @canvasWidth = 1024
-    @canvasHeight = 400
+    @canvasHeight = 600
     @canvasContext = null
     @canvasBuffer = null
     @canvasBufferContext = null
@@ -46,6 +46,7 @@ class Game
     
   initControlEvents: ->
     @entities.player.initControlEvents()
+    @viewport.initControlEvents()
   
   startGame: ->
     skipTicks = 1000 / @fps
@@ -68,6 +69,7 @@ class Game
   # gets written to the buffer
   initFrame: ->
     @updateEntities()
+    @viewport.update()
     this
   
   # This writes the buffer canvas to the real one

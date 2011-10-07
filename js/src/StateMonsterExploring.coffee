@@ -14,11 +14,11 @@ class StateMonsterExploring extends State
     @monster.move(direction)
 
   checkConditions: ->
-    player = @monster.game.getPlayer()
-    n = 50
-    
-    if (player.position.x <= (@monster.position.x + n) and player.position.x >= (@monster.position.x - n)) and (player.position.y <= (@monster.position.y + n) and player.position.y >= (@monster.position.y - n))
-      return 'fleeing'
+    # player = @monster.game.getPlayer()
+    # n = 50
+    # 
+    # if (player.position.x <= (@monster.position.x + n) and player.position.x >= (@monster.position.x - n)) and (player.position.y <= (@monster.position.y + n) and player.position.y >= (@monster.position.y - n))
+    #   return 'fleeing'
       
   entryActions: ->
     @monster.velocity = 1

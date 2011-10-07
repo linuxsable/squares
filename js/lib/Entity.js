@@ -14,6 +14,7 @@ Entity = (function() {
   }
   Entity.prototype.destroy = function() {};
   Entity.prototype.render = function() {};
+  Entity.prototype.isViewable = function() {};
   Entity.prototype.initControlEvents = function() {
     $(document).bind('keydown', __bind(function(e) {
       return this.keyHandler.onKeydown(e);

@@ -13,6 +13,9 @@ class Entity
   # prototype
   render: ->
     
+  # Prototype
+  isViewable: ->
+    
   initControlEvents: ->
     $(document).bind 'keydown', (e) =>
       @keyHandler.onKeydown(e)
