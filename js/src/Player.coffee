@@ -17,6 +17,27 @@ class Player extends Entity
       @size.height
     )
     
+  move: (direction, velocity = @velocity) ->
+    viewportPos = @game.viewport.position
+    switch direction
+      when 'up'
+        @position.y -= velocity
+        if (@game.viewport.position.y + (@game.viewport.size.height * .15)) >= @position.y
+          @game.viewport.move('up', velocity)
+      when 'down'
+        @position.y += velocity
+        if (@game.viewport.position.y + (@game.viewport.size.height * .85)) <= @position.y
+          @game.viewport.move('down', velocity)
+      when 'left'
+        @position.x -= velocity
+        if (@game.viewport.position.x + (@game.viewport.size.width * .15)) >= @position.x
+          @game.viewport.move('left', velocity)
+      when 'right'
+        @position.x += velocity
+        if (@game.viewport.position.x + (@game.viewport.size.width * .85)) <= @position.x
+          @game.viewport.move('right', velocity)
+    this
+    
   update: ->
     k = @keyHandler
     @move('up') if k.isDown(k.KEYS.W)

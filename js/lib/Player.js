@@ -26,6 +26,39 @@ Player = (function() {
     context.shadowOffsetX = 2;
     return context.fillRect(this.position.x - this.game.viewport.position.x, this.position.y - this.game.viewport.position.y, this.size.width, this.size.height);
   };
+  Player.prototype.move = function(direction, velocity) {
+    var viewportPos;
+    if (velocity == null) {
+      velocity = this.velocity;
+    }
+    viewportPos = this.game.viewport.position;
+    switch (direction) {
+      case 'up':
+        this.position.y -= velocity;
+        if ((this.game.viewport.position.y + (this.game.viewport.size.height * .15)) >= this.position.y) {
+          this.game.viewport.move('up', velocity);
+        }
+        break;
+      case 'down':
+        this.position.y += velocity;
+        if ((this.game.viewport.position.y + (this.game.viewport.size.height * .85)) <= this.position.y) {
+          this.game.viewport.move('down', velocity);
+        }
+        break;
+      case 'left':
+        this.position.x -= velocity;
+        if ((this.game.viewport.position.x + (this.game.viewport.size.width * .15)) >= this.position.x) {
+          this.game.viewport.move('left', velocity);
+        }
+        break;
+      case 'right':
+        this.position.x += velocity;
+        if ((this.game.viewport.position.x + (this.game.viewport.size.width * .85)) <= this.position.x) {
+          this.game.viewport.move('right', velocity);
+        }
+    }
+    return this;
+  };
   Player.prototype.update = function() {
     var k;
     k = this.keyHandler;
