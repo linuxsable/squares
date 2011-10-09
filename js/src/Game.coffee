@@ -119,7 +119,7 @@ class Game
         new Size(30, 30),
         '#008fc5'
       )
-      @entities.player.velocity = 2.5
+      @entities.player.velocity = 5
   
   getPlayer: ->
     @entities.player

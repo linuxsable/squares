@@ -27,35 +27,39 @@ Player = (function() {
     return context.fillRect(this.position.x - this.game.viewport.position.x, this.position.y - this.game.viewport.position.y, this.size.width, this.size.height);
   };
   Player.prototype.move = function(direction, velocity) {
-    var viewportPos;
+    var oldPosition, padding;
     if (velocity == null) {
       velocity = this.velocity;
     }
-    viewportPos = this.game.viewport.position;
+    oldPosition = $.extend(true, {}, this.position);
+    padding = this.game.viewport.padding;
     switch (direction) {
       case 'up':
         this.position.y -= velocity;
-        if ((this.game.viewport.position.y + (this.game.viewport.size.height * .15)) >= this.position.y) {
+        if ((this.game.viewport.position.y + padding / 2) >= this.position.y) {
           this.game.viewport.move('up', velocity);
         }
         break;
       case 'down':
         this.position.y += velocity;
-        if ((this.game.viewport.position.y + (this.game.viewport.size.height * .85)) <= this.position.y) {
+        if ((this.game.viewport.position.y + this.game.viewport.size.height - padding) <= this.position.y) {
           this.game.viewport.move('down', velocity);
         }
         break;
       case 'left':
         this.position.x -= velocity;
-        if ((this.game.viewport.position.x + (this.game.viewport.size.width * .15)) >= this.position.x) {
+        if ((this.game.viewport.position.x + padding) >= this.position.x) {
           this.game.viewport.move('left', velocity);
         }
         break;
       case 'right':
         this.position.x += velocity;
-        if ((this.game.viewport.position.x + (this.game.viewport.size.width * .85)) <= this.position.x) {
+        if ((this.game.viewport.position.x + this.game.viewport.size.width - padding) <= this.position.x) {
           this.game.viewport.move('right', velocity);
         }
+    }
+    if (this.position.x > (this.game.world.size.width - this.size.width) || this.position.x <= 0 || this.position.y > (this.game.world.size.height - this.size.height) || this.position.y <= 0) {
+      this.position = oldPosition;
     }
     return this;
   };

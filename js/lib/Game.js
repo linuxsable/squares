@@ -132,7 +132,7 @@ Game = (function() {
   Game.prototype.initPlayer = function() {
     if (false === (this.entities.player instanceof Player)) {
       this.entities.player = new Player(this, new Coord(this.canvasWidth / 2, this.canvasHeight / 2), new Size(30, 30), '#008fc5');
-      return this.entities.player.velocity = 2.5;
+      return this.entities.player.velocity = 5;
     }
   };
   Game.prototype.getPlayer = function() {

@@ -18,24 +18,34 @@ class Player extends Entity
     )
     
   move: (direction, velocity = @velocity) ->
-    viewportPos = @game.viewport.position
+    # This clones the position coord for later
+    oldPosition = $.extend true, {}, @position
+    
+    padding = @game.viewport.padding
+    
     switch direction
       when 'up'
         @position.y -= velocity
-        if (@game.viewport.position.y + (@game.viewport.size.height * .15)) >= @position.y
+        if (@game.viewport.position.y + padding / 2) >= @position.y
           @game.viewport.move('up', velocity)
+          
       when 'down'
         @position.y += velocity
-        if (@game.viewport.position.y + (@game.viewport.size.height * .85)) <= @position.y
+        if (@game.viewport.position.y + @game.viewport.size.height - padding) <= @position.y
           @game.viewport.move('down', velocity)
+          
       when 'left'
         @position.x -= velocity
-        if (@game.viewport.position.x + (@game.viewport.size.width * .15)) >= @position.x
+        if (@game.viewport.position.x + padding) >= @position.x
           @game.viewport.move('left', velocity)
+          
       when 'right'
         @position.x += velocity
-        if (@game.viewport.position.x + (@game.viewport.size.width * .85)) <= @position.x
+        if (@game.viewport.position.x + @game.viewport.size.width - padding) <= @position.x
           @game.viewport.move('right', velocity)
+          
+    if @position.x > (@game.world.size.width - @size.width) || @position.x <= 0 || @position.y > (@game.world.size.height - @size.height) || @position.y <= 0
+      @position = oldPosition
     this
     
   update: ->

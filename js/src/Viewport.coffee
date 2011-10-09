@@ -6,6 +6,7 @@ class Viewport
     # the size of the canvas
     @size = new Size @game.canvasWidth, @game.canvasHeight
     @keyHandler = new KeyHandler
+    @padding = 100
     
     if !position?
       @position = new Coord 0, 0

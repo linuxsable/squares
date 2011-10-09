@@ -5,6 +5,7 @@ Viewport = (function() {
     this.game = game;
     this.size = new Size(this.game.canvasWidth, this.game.canvasHeight);
     this.keyHandler = new KeyHandler;
+    this.padding = 100;
     if (!(position != null)) {
       this.position = new Coord(0, 0);
     } else {
