@@ -9,8 +9,14 @@ Game = (function() {
     this.canvasBuffer = null;
     this.canvasBufferContext = null;
     this.fps = 60;
+    this.server = {
+      HOST: 'http://localhost',
+      PORT: 3000
+    };
+    this.socket = null;
     this.entities = {
       player: null,
+      players: [],
       monsters: []
     };
     this.world = null;
@@ -21,6 +27,7 @@ Game = (function() {
     this.initPlayer();
     this.initMonsters();
     this.initControlEvents();
+    this.connectToServer();
     this.startGame();
   }
   Game.prototype.initCanvas = function() {
@@ -135,13 +142,10 @@ Game = (function() {
       return this.entities.player.velocity = 5;
     }
   };
-  Game.prototype.getPlayer = function() {
-    return this.entities.player;
-  };
   Game.prototype.initMonsters = function() {
     var color, coord, monster, num, size, _results;
     _results = [];
-    for (num = 10000; num >= 1; num--) {
+    for (num = 250; num >= 1; num--) {
       coord = this.world.getRandomCoordInside();
       size = new Size(12, 12);
       color = '#888';
@@ -155,6 +159,35 @@ Game = (function() {
   };
   Game.prototype.initViewport = function() {
     return this.viewport = new Viewport(this);
+  };
+  Game.prototype.connectToServer = function() {
+    if (this.socket !== null) {
+      throw 'Already connected to server';
+    }
+    this.socket = io.connect(this.server.HOST, {
+      port: this.server.PORT
+    });
+    return this.socket.on('connect', __bind(function() {
+      $('#chat').prepend('<div>Connected to server.</div>');
+      this.entities.player.id = parseInt(this.socket.socket.sessionid);
+      this.socket.emit('player_update', {
+        id: this.entities.player.id,
+        position: this.entities.player.position
+      });
+      this.socket.on('players_sync', __bind(function(req) {
+        return $.each(req.players, __bind(function(k, v) {
+          if (parseInt(v.id) !== this.entities.player.id) {
+            return this.entities.players.push(new Player(this, new Coord(v.position.x, v.position.y), new Size(30, 30), '#fff', parseInt(v.id)));
+          }
+        }, this));
+      }, this));
+      this.socket.on('player_connected', __bind(function(req) {
+        return $('#chat').prepend('<div>Player connected #' + req.player.id + '</div>');
+      }, this));
+      return this.socket.on('player_disconnected', function(d) {
+        return $('#chat').prepend('<div>Player disconnected #' + d.id + '</div>');
+      });
+    }, this));
   };
   return Game;
 })();

@@ -24,7 +24,7 @@ StateMonsterFleeing = (function() {
   };
   StateMonsterFleeing.prototype.checkConditions = function() {
     var n, player;
-    player = this.monster.game.getPlayer();
+    player = this.monster.game.entities.player;
     n = 50;
     if ((player.position.x >= (this.monster.position.x + n) || player.position.x <= (this.monster.position.x - n)) || (player.position.y >= (this.monster.position.y + n) || player.position.y <= (this.monster.position.y - n))) {
       return 'exploring';

@@ -46,7 +46,7 @@ class Viewport
     @centerOverPlayer() if k.isDown(k.KEYS.SPACE)
   
   centerOverPlayer: ->
-    temp = $.extend true, {}, @game.getPlayer().position
+    temp = $.extend true, {}, @game.entities.player.position
     temp.x -= @size.width / 2
     temp.y -= @size.height / 2
     

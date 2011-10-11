@@ -1,14 +1,14 @@
 var Entity;
 var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 Entity = (function() {
-  function Entity(game, coord, size, color) {
+  function Entity(game, coord, size, color, id) {
     this.game = game;
     this.size = size;
     this.color = color;
+    this.id = id != null ? id : 0;
     this.position = coord;
     this.velocity = 2;
     this.destination = null;
-    this.id = 0;
     this.mind = new StateMachine;
     this.keyHandler = new KeyHandler;
   }

@@ -18,7 +18,7 @@ class StateMonsterFleeing extends State
   checkConditions: ->
     # Check to see if we're far enough away
     # then exit out back to exploring
-    player = @monster.game.getPlayer()
+    player = @monster.game.entities.player
     n = 50
     
     if (player.position.x >= (@monster.position.x + n) or player.position.x <= (@monster.position.x - n)) or (player.position.y >= (@monster.position.y + n) or player.position.y <= (@monster.position.y - n))

@@ -16,9 +16,25 @@ h1 {
 
 #game {
     border: 3px solid #222;
+    float: left;
+    width: 80%;
 }
 
 #logo {
     max-width: 300px;
     padding-bottom: 5px;
+}
+
+#note {
+    float: left;
+    clear: both;
+}
+
+#chat {
+    float: left;
+    width: 17%;
+    border: 3px solid #222;
+    clear: none;
+    margin-left: 10px;
+    min-height: 100%;
 }

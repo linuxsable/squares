@@ -7,3 +7,13 @@ Entities have points on the world. The world is what sets the width and height o
 WORLD -> VIEWPORT -> ENTITIES
 
 TODO: Get the viewport only rendering those entities which are in view. Be able to move the viewport around on the world.
+
+NETWORKING
+--
+
+A client connects:
+
+a) Send player location to server
+b) Notify the chat that the player has connected
+c) Download the data on the other players
+d) Initialize the players into their own entities

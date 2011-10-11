@@ -57,7 +57,7 @@ Viewport = (function() {
   };
   Viewport.prototype.centerOverPlayer = function() {
     var temp;
-    temp = $.extend(true, {}, this.game.getPlayer().position);
+    temp = $.extend(true, {}, this.game.entities.player.position);
     temp.x -= this.size.width / 2;
     temp.y -= this.size.height / 2;
     if (temp.x > (this.game.world.size.width - this.size.width) || temp.x < 0 || temp.y > (this.game.world.size.height - this.size.height) || temp.y < 0) {} else {

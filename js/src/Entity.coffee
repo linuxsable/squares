@@ -1,9 +1,8 @@
 class Entity
-  constructor: (@game, coord, @size, @color) ->
+  constructor: (@game, coord, @size, @color, @id=0) ->
     @position = coord
     @velocity = 2
     @destination = null
-    @id = 0
     @mind = new StateMachine
     @keyHandler = new KeyHandler
     

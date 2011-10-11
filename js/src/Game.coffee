@@ -8,8 +8,20 @@ class Game
     @canvasBufferContext = null
     @fps = 60
     
+    @server = {
+      HOST: 'http://localhost',
+      PORT: 3000
+    }
+    
+    @socket = null
+    
     @entities = {
+      # User player
       player: null,
+      
+      # Other players
+      players: [],
+      
       monsters: []
     }
     
@@ -23,6 +35,9 @@ class Game
     @initPlayer()
     @initMonsters()
     @initControlEvents()
+    
+    # Networking
+    @connectToServer()
     
     # Start that ish!
     @startGame()
@@ -120,12 +135,9 @@ class Game
         '#008fc5'
       )
       @entities.player.velocity = 5
-  
-  getPlayer: ->
-    @entities.player
       
   initMonsters: ->
-    for num in [10000..1]
+    for num in [250..1]
       coord = @world.getRandomCoordInside()
       size = new Size 12, 12
       color = '#888'
@@ -137,3 +149,46 @@ class Game
   
   initViewport: ->
     @viewport = new Viewport this
+    
+  connectToServer: ->
+    if @socket != null
+      throw 'Already connected to server'
+      
+    @socket = io.connect @server.HOST, {port: @server.PORT}
+    
+    # When you've connected to server
+    @socket.on 'connect', =>
+      $('#chat').prepend '<div>Connected to server.</div>'
+      
+      # Save the sessionid on the player object
+      @entities.player.id = parseInt(@socket.socket.sessionid)
+      
+      # Tell the server where the player is on init
+      @socket.emit 'player_update', {
+        id: @entities.player.id,
+        position: @entities.player.position
+      }
+      
+      # Init all current players
+      @socket.on 'players_sync', (req) =>
+        $.each req.players, (k, v) =>
+          if parseInt(v.id) != @entities.player.id
+            # Need to convert @entities.players into a hash
+            # so that a player can be looked up by it's index
+            # which is it's sessionId
+            @entities.players.push new Player(
+              this,
+              new Coord(v.position.x, v.position.y),
+              new Size(30, 30),
+              '#fff',
+              parseInt(v.id)
+            )
+        
+      # Let the chat know about a player connecting
+      @socket.on 'player_connected', (req) =>
+        $('#chat').prepend '<div>Player connected #'+req.player.id+'</div>'
+      
+      # Let the chat know, remove the player from the entities
+      @socket.on 'player_disconnected', (d) ->
+        $('#chat').prepend '<div>Player disconnected #'+d.id+'</div>'
+        
