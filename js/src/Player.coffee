@@ -46,6 +46,13 @@ class Player extends Entity
           
     if @position.x > (@game.world.size.width - @size.width) || @position.x <= 0 || @position.y > (@game.world.size.height - @size.height) || @position.y <= 0
       @position = oldPosition
+      
+    # Tell the server
+    @game.socket.emit 'player_update', {
+      id: @id,
+      position: @position
+    }
+    
     this
     
   update: ->

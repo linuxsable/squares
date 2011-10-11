@@ -61,6 +61,10 @@ Player = (function() {
     if (this.position.x > (this.game.world.size.width - this.size.width) || this.position.x <= 0 || this.position.y > (this.game.world.size.height - this.size.height) || this.position.y <= 0) {
       this.position = oldPosition;
     }
+    this.game.socket.emit('player_update', {
+      id: this.id,
+      position: this.position
+    });
     return this;
   };
   Player.prototype.update = function() {

@@ -18,10 +18,8 @@ class Game
     @entities = {
       # User player
       player: null,
-      
       # Other players
-      players: [],
-      
+      players: {},
       monsters: []
     }
     
@@ -33,11 +31,11 @@ class Game
     @initWorld()
     @initViewport()
     @initPlayer()
-    @initMonsters()
+    # @initMonsters()
     @initControlEvents()
     
     # Networking
-    @connectToServer()
+    @initSocket()
     
     # Start that ish!
     @startGame()
@@ -102,8 +100,13 @@ class Game
   # We now only want to render those entities
   # which are inside the current canvas.
   renderEntities: ->
-    for key, entity of @entities
-      if $.isArray entity
+    for key, entity of @entities      
+      # This should probably be refactored
+      if key == 'players'
+        $.each entity, (k, v) ->
+          v.render()
+          
+      else if $.isArray entity
         for subKey, subEntity of entity
           return if not (subEntity instanceof Entity)
           if 'function' == typeof subEntity.render
@@ -115,7 +118,12 @@ class Game
   
   updateEntities: ->
     for key, entity of @entities
-      if $.isArray entity
+      # This should probably be refactored
+      if key == 'players'
+        $.each entity, (k, v) ->
+          v.update()
+      
+      else if $.isArray entity
         for subKey, subEntity of entity
           return if not (subEntity instanceof Entity)
           if 'function' == typeof subEntity.update
@@ -150,45 +158,56 @@ class Game
   initViewport: ->
     @viewport = new Viewport this
     
-  connectToServer: ->
+  initSocket: ->
     if @socket != null
       throw 'Already connected to server'
       
     @socket = io.connect @server.HOST, {port: @server.PORT}
     
+    _entities = @entities
+    _socket = @socket
+    _self = @
+    
     # When you've connected to server
-    @socket.on 'connect', =>
+    @socket.on 'connect', ->
       $('#chat').prepend '<div>Connected to server.</div>'
       
       # Save the sessionid on the player object
-      @entities.player.id = parseInt(@socket.socket.sessionid)
+      _entities.player.id = parseInt(_socket.socket.sessionid)
       
       # Tell the server where the player is on init
-      @socket.emit 'player_update', {
-        id: @entities.player.id,
-        position: @entities.player.position
+      _socket.emit 'player_update', {
+        id: _entities.player.id,
+        position: _entities.player.position
       }
       
       # Init all current players
-      @socket.on 'players_sync', (req) =>
-        $.each req.players, (k, v) =>
-          if parseInt(v.id) != @entities.player.id
-            # Need to convert @entities.players into a hash
-            # so that a player can be looked up by it's index
-            # which is it's sessionId
-            @entities.players.push new Player(
-              this,
-              new Coord(v.position.x, v.position.y),
-              new Size(30, 30),
-              '#fff',
-              parseInt(v.id)
-            )
+      _socket.on 'players_sync', (req) ->
+        $.each req.players, (k, v) ->
+          id = parseInt(v.id)
+          
+          if id != _entities.player.id
+            
+            # Does the player already exist?
+            if _entities.players.hasOwnProperty(id)
+              _entities.players[id].position = new Coord(v.position.x, v.position.y)
+              
+            # Create player newly
+            else
+              _entities.players[id] = new Player(
+                _self,
+                new Coord(v.position.x, v.position.y),
+                new Size(30, 30),
+                '#fff',
+                parseInt(v.id)
+              )
         
       # Let the chat know about a player connecting
-      @socket.on 'player_connected', (req) =>
+      _socket.on 'player_connected', (req) =>
         $('#chat').prepend '<div>Player connected #'+req.player.id+'</div>'
       
       # Let the chat know, remove the player from the entities
-      @socket.on 'player_disconnected', (d) ->
+      _socket.on 'player_disconnected', (req) ->
         $('#chat').prepend '<div>Player disconnected #'+d.id+'</div>'
+        delete _entities.players[id]
         
