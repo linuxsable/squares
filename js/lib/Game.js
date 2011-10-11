@@ -202,8 +202,8 @@ Game = (function() {
         return $('#chat').prepend('<div>Player connected #' + req.player.id + '</div>');
       }, this));
       return _socket.on('player_disconnected', function(req) {
-        $('#chat').prepend('<div>Player disconnected #' + d.id + '</div>');
-        return delete _entities.players[id];
+        $('#chat').prepend('<div>Player disconnected #' + req.id + '</div>');
+        return delete _entities.players[req.id];
       });
     });
   };

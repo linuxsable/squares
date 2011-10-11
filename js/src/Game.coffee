@@ -208,6 +208,6 @@ class Game
       
       # Let the chat know, remove the player from the entities
       _socket.on 'player_disconnected', (req) ->
-        $('#chat').prepend '<div>Player disconnected #'+d.id+'</div>'
-        delete _entities.players[id]
+        $('#chat').prepend '<div>Player disconnected #'+req.id+'</div>'
+        delete _entities.players[req.id]
         
